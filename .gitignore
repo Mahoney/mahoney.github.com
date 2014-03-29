@@ -10,3 +10,5 @@ bin
 *.ipr
 *.ids
 .idea
+Gemfile.lock
+_site
