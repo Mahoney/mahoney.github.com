@@ -1,0 +1,49 @@
+html {
+  background: #fcfbf5;
+}
+
+header {
+  width: 100%;
+  height: 10em;
+  background: #103a51;
+  position: relative;
+}
+
+header > h1 {
+  position: absolute;
+  bottom: 0;
+  left: 1em;
+  color: white;
+}
+
+nav.primary {
+  width: 100%;
+}
+
+nav.primary ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav.primary li {
+  display: inline-block;
+  text-align: center;
+  width: 14%;
+  margin: 0;
+}
+
+nav.primary .about_me {
+  background-color: red;
+}
+
+nav.primary .past_projects {
+  background-color: lawngreen;
+}
+
+nav.primary .processes {
+  background-color: blue;
+}
+
+nav.primary .architecture {
+  background-color: purple;
+}
