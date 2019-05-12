@@ -15,7 +15,7 @@ This effectively translates a call such as:
 
 <pre class="brush:java">class Foo {
  ...
-.  System.out.println("Hello World");
+    System.out.println("Hello World");
  ...
 }
 </pre>
@@ -23,7 +23,7 @@ into the equivalent of:
 
 <pre class="brush:java">class Foo {
  ...
-.  LoggerFactory.getLogger(Foo.class).info("Hello World");
+    LoggerFactory.getLogger(Foo.class).info("Hello World");
  ...
 }
 </pre>
@@ -41,8 +41,8 @@ Or via the Maven central repository:
 
 <pre class="brush:xml">
 &lt;dependency&gt;
-.  &lt;groupId&gt;uk.org.lidalia&lt;/groupId&gt;
-.  &lt;artifactId&gt;sysout-over-slf4j&lt;/artifactId&gt;
-.  &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;groupId&gt;uk.org.lidalia&lt;/groupId&gt;
+    &lt;artifactId&gt;sysout-over-slf4j&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>

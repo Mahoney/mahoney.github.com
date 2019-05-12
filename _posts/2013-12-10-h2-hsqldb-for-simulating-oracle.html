@@ -18,9 +18,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 Driver.load();
 DataSource dataSource = new DriverManagerDataSource(
-.  "jdbc:h2:mem:MYDBNAME;MVCC=true;DB_CLOSE_DELAY=-1;MODE=Oracle",
-.  "sa",
-.  "");
+    "jdbc:h2:mem:MYDBNAME;MVCC=true;DB_CLOSE_DELAY=-1;MODE=Oracle",
+    "sa",
+    "");
 </pre>
 DB_CLOSE_DELAY is vital here or the database is deleted whenever the number of connections drops to zero - a highly unintuitive situation.
 
@@ -35,9 +35,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 JDBCDriver.class.getName();
 DataSource dataSource = new DriverManagerDataSource(
-.  "jdbc:hsqldb:mem:MYDBNAME",
-.  "sa",
-.  "")
+    "jdbc:hsqldb:mem:MYDBNAME",
+    "sa",
+    "")
 JdbcTemplate&nbsp; jdbcTemplate = new JdbcTemplate(dataSource)
 jdbcTemplate.execute("set database sql syntax ORA TRUE;");
 jdbcTemplate.execute("set database transaction control MVCC;");

@@ -15,10 +15,10 @@ Consider the following classes:
 
 <pre class="brush:java">
 interface FooInterface {
-.  void methodOnFooInterface();
+    void methodOnFooInterface();
 }
 interface BarInterface {
-.  void methodOnBarInterface();
+    void methodOnBarInterface();
 }
 class Foo implements FooInterface, BarInterface { ... }
 class Bar implements FooInterface, BarInterface { ... }
@@ -26,8 +26,8 @@ class Bar implements FooInterface, BarInterface { ... }
 
 <pre class="brush:java">
 &lt;T extends FooInterface &amp; BarInterface&gt; void doSomething(T instance) {
-.  instance.methodOnFooInterface();
-.  instance.methodOnBarInterface();
+    instance.methodOnFooInterface();
+    instance.methodOnBarInterface();
 }
 doSomething(new Foo());
 doSomething(new Bar());
@@ -35,28 +35,28 @@ doSomething(new Bar());
 
 <pre class="brush:java">
 &lt;T extends FooInterface &amp; BarInterface&gt; void doSomethingElse(Collection&lt;T&gt; collection) {
-.  for (T instance : collection) {
-. .   instance.methodOnFooInterface();
-. .   instance.methodOnBarInterface();
-.  }
+    for (T instance : collection) {
+        instance.methodOnFooInterface();
+        instance.methodOnBarInterface();
+    }
 }
-</pre>The method declaration works, but how to call it. I can find no way to instantiate a Collection with a synthetic type - this does not work:
+</pre>The method declaration works, but how to call it? I can find no way to instantiate a Collection with a synthetic type - this does not work:
 
 <pre class="brush:java">
 Collection&lt;FooInterface &amp; BarInterface&gt; things = new ArrayList&lt;FooInterface &amp; BarInterface&gt;); // DOES NOT COMPILE
 this.add(new Foo());
 this.add(new Bar());
 doSomethingElse(things);
-</pre>Can anyone help. This feels to me like a very powerful feature, potentially.
+</pre>Can anyone help? This feels to me like a very powerful feature, potentially.
 
 Edit: found a clunky way to do it:
 
 <pre class="brush:java">
 &lt;T extends FooInterface &amp; BarInterface&gt; Collection&lt;T&gt; makeCollection(T instance1, T instance2) {
-.  Collection&lt;T&gt; collection = new ArrayList&lt;T&gt;();
-.  collection.add(instance1);
-.  collection.add(instance2);
-.  return collection;
+    Collection&lt;T&gt; collection = new ArrayList&lt;T&gt;();
+    collection.add(instance1);
+    collection.add(instance2);
+    return collection;
 }
 doSomethingElse(makeCollection(new Foo(), new Bar()));
 </pre>It would look more flexible with varargs, but then the compiler issues a warning about unchecked operations; a warning isn't the end of the world so that may be a preferable solution. But it's still pretty ugly - you cannot pull the <pre>makeCollection</pre> call out into an instance variable as there is no way to declare its type, so it has to stay inlined.

@@ -49,17 +49,17 @@ However, Gradle does not do this by default; you have to specify the dependency 
 
 <span style="color: #000043; font-weight: bold;">def </span>allDependencies = subprojects.collect { it.configurations.collect { it.dependencies }.flatten() }.flatten()
 <span style="color: #000043; font-weight: bold;">def </span>localDependencies = allDependencies.findAll { dependency -&gt;
-.  subprojects.any { it.name == dependency.name &amp;&amp; it.version == dependency.version &amp;&amp; it.group == dependency.group }
+    subprojects.any { it.name == dependency.name &amp;&amp; it.version == dependency.version &amp;&amp; it.group == dependency.group }
 }
 
 subprojects {
-.  configurations.all {
-. .   resolutionStrategy.dependencySubstitution {
-. . . . localDependencies.each {
-. . . . .  substitute module(<span style="color: green; font-weight: bold;">"</span>${it.group}<span style="color: green; font-weight: bold;">:</span>${it.name}<span style="color: green; font-weight: bold;">:</span>${it.version}<span style="color: green; font-weight: bold;">"</span>) with project(<span style="color: green; font-weight: bold;">":</span>${it.name}<span style="color: green; font-weight: bold;">"</span>)
-. . . . }
-. .   }
-.  }
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            localDependencies.each {
+                substitute module(<span style="color: green; font-weight: bold;">"</span>${it.group}<span style="color: green; font-weight: bold;">:</span>${it.name}<span style="color: green; font-weight: bold;">:</span>${it.version}<span style="color: green; font-weight: bold;">"</span>) with project(<span style="color: green; font-weight: bold;">":</span>${it.name}<span style="color: green; font-weight: bold;">"</span>)
+            }
+        }
+    }
 }</pre>
 This effectively gives the Maven behaviour - and IntelliJ at least respects it correctly and resolves the dependencies to the same workspace
 

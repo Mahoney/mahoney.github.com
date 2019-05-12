@@ -30,9 +30,9 @@ fi
 function updateKey {
   sshpass -p $passw ssh -oLogLevel=Error -oStrictHostKeyChecking=no $1 $command
   if [ $? -eq 0 ]
-.  then echo "Updated key on $1"
+    then echo "Updated key on $1"
   else
-.  echo "Failed to update key on $1"
+    echo "Failed to update key on $1"
   fi
 }
 

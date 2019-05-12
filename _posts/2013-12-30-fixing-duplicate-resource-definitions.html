@@ -17,12 +17,12 @@ Recently I have been working on a puppet module which defines a new resource whi
   notify { "${name} installed!": }
 
   file { $log_dir:
-.  ensure => directory
+    ensure => directory
   }
 
   file { "${log_dir}/${name}":
-.  ensure => directory,
-.  require => File[$log_dir]
+    ensure => directory,
+    require => File[$log_dir]
   }
 }
 </pre>
@@ -47,14 +47,14 @@ The solution I've found is to realise a virtual resource defined in an unparamet
   File <| title == $log_dir |>
 
   file { "${log_dir}/${name}":
-.  ensure => directory,
-.  require => File[$log_dir]
+    ensure => directory,
+    require => File[$log_dir]
   }
 }
 
 </pre><pre title="mything/defaultlogging.pp">class mything::defaultlogging {
   @file { '/var/log/mythings':
-.  ensure => directory
+    ensure => directory
   }
 }
 </pre>

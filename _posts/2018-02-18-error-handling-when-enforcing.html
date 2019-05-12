@@ -25,8 +25,8 @@ Let's say we define a type to represent the set of natural numbers:
 <pre style="background-color: white; font-family: Menlo; font-size: 9pt;"><span style="color: navy; font-weight: bold;">object </span>Natural {
 
   <span style="color: navy; font-weight: bold;">def </span>apply(natural: Int): <span style="color: #20999d;">Either</span>[<span style="color: #20999d;">IllegalArgumentException</span>, Natural] =
-.  <span style="color: navy; font-weight: bold;">if </span>(natural &gt; <span style="color: blue;">0</span>) <span style="color: #660e7a; font-style: italic;">Right</span>(<span style="color: navy; font-weight: bold;">new </span>Natural(natural))
-.  <span style="color: navy; font-weight: bold;">else </span><span style="color: #660e7a; font-style: italic;">Left</span>(<span style="color: navy; font-weight: bold;">new </span>IllegalArgumentException(<span style="color: green; font-weight: bold;">s"</span><span style="color: #00b8bb; font-weight: bold;">$</span>natural<span style="color: green; font-weight: bold;"> is not a Natural number"</span>))
+    <span style="color: navy; font-weight: bold;">if </span>(natural &gt; <span style="color: blue;">0</span>) <span style="color: #660e7a; font-style: italic;">Right</span>(<span style="color: navy; font-weight: bold;">new </span>Natural(natural))
+    <span style="color: navy; font-weight: bold;">else </span><span style="color: #660e7a; font-style: italic;">Left</span>(<span style="color: navy; font-weight: bold;">new </span>IllegalArgumentException(<span style="color: green; font-weight: bold;">s"</span><span style="color: #00b8bb; font-weight: bold;">$</span>natural<span style="color: green; font-weight: bold;"> is not a Natural number"</span>))
 }
 
 <span style="color: navy; font-weight: bold;">case class </span>Natural <span style="color: navy; font-weight: bold;">private </span>(natural: Int) <span style="color: navy; font-weight: bold;">extends</span> AnyVal</pre>

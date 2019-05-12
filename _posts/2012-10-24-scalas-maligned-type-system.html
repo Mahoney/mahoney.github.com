@@ -41,17 +41,17 @@ Scala uses &gt;: and &lt;: where Java uses super and extends to set type bounds.
 We're now into a nearly valid Java signature for a method on a type List&lt;A&gt;. The only bit of this which does not compile is &lt;B super A&gt; - for reasons I don't fully understand Java does not support&nbsp; a lower bound for a type parameter on a method. Switch it to an upper bound however, and Java's perfectly happy:
 
 <pre style="-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: #dddddd; border-bottom-color: rgb(119, 119, 119); border-bottom-style: solid; border-bottom-width: 1px; border-image: initial; border-left-color: rgb(119, 119, 119); border-left-style: solid; border-left-width: 1px; border-right-color: rgb(119, 119, 119); border-right-style: solid; border-right-width: 1px; border-top-color: rgb(119, 119, 119); border-top-style: solid; border-top-width: 1px; color: black; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: 2; overflow-x: auto; overflow-y: auto; padding-bottom: 4px; padding-left: 8px; padding-right: 4px; padding-top: 4px; text-align: -webkit-auto; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px;">interface List&lt;A&gt; {
-.  &lt;B extends A, That&gt; That addAll(TraversableOnce&lt;B&gt; that, CanBuildFrom&lt;List&lt;A&gt;, B, That&gt; bf);
+    &lt;B extends A, That&gt; That addAll(TraversableOnce&lt;B&gt; that, CanBuildFrom&lt;List&lt;A&gt;, B, That&gt; bf);
 } </pre>
 Conceptually upper and lower bounds are basically equivalent. So it's possible to express the type ideas in the example at the top almost entirely in pure Java.
 
 Remember I'm focussed purely on the type system here - the method declaration we've ended up with is still complicated and has legibility issues with names. It's just that you can produce the same complications in Java - there's been no _added_ complexity from Scala. Here's a verbose version that might be easier to read:
 
 <pre style="-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: #dddddd; border-bottom-color: rgb(119, 119, 119); border-bottom-style: solid; border-bottom-width: 1px; border-image: initial; border-left-color: rgb(119, 119, 119); border-left-style: solid; border-left-width: 1px; border-right-color: rgb(119, 119, 119); border-right-style: solid; border-right-width: 1px; border-top-color: rgb(119, 119, 119); border-top-style: solid; border-top-width: 1px; color: black; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: 2; overflow-x: auto; overflow-y: auto; padding-bottom: 4px; padding-left: 8px; padding-right: 4px; padding-top: 4px; text-align: -webkit-auto; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px;">interface List&lt;E&gt; {
-.  &lt;SubE extends E, ReturnCollectionType&gt;
-.  ReturnCollectionType addAll(
-. . . . TraversableOnce&lt;SubE&gt; itemsToAdd,
-. . . . CollectionFactory&lt;List&lt;E&gt;, SubE, ReturnCollectionType&gt; factory);
+    &lt;SubE extends E, ReturnCollectionType&gt;
+    ReturnCollectionType addAll(
+            TraversableOnce&lt;SubE&gt; itemsToAdd,
+            CollectionFactory&lt;List&lt;E&gt;, SubE, ReturnCollectionType&gt; factory);
 }</pre>
 The irony is that there are aspects of the Scala type system that _are_ significantly different to Java, and so are susceptible to accusations of a type system in overdrive. It's just that this method signature, used as an example of Scala's allegedly baroque type system, shows none of them.
 

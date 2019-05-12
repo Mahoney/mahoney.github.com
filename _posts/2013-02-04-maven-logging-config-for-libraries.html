@@ -23,68 +23,68 @@ Libraries:
   <version>1.2.3</version>
 
   <properties>
-.  <slf4jversion>1.7.1</slf4jversion>
+    <slf4jversion>1.7.1</slf4jversion>
   </properties>
 
   <repositories>
-.  <repository>
-. . <id>version99</id>
-. . <url>http://version99.qos.ch/</url>
-.  </repository>
+    <repository>
+      <id>version99</id>
+      <url>http://version99.qos.ch/</url>
+    </repository>
   </repositories>
 
   <dependencies>
-.  <!-- COMPILE -->
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>slf4j-api</artifactid>
-. . <version>${slf4j.version}</version>
-. . <scope>compile</scope>
-.  </dependency>
+    <!-- COMPILE -->
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>slf4j-api</artifactid>
+      <version>${slf4j.version}</version>
+      <scope>compile</scope>
+    </dependency>
 
-.  <!-- TEST -->
-.  <dependency>
-. . <groupid>ch.qos.logback</groupid>
-. . <artifactid>logback-classic</artifactid>
-. . <version>1.0.7</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>jcl-over-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>jul-to-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>uk.org.lidalia</groupid>
-. . <artifactid>jul-to-slf4j-config</artifactid>
-. . <version>1.0.0</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>log4j-over-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>commons-logging</groupid>
-. . <artifactid>commons-logging</artifactid>
-. . <version>99-empty</version>
-. . <scope>test</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>log4j</groupid>
-. . <artifactid>log4j</artifactid>
-. . <version>99-empty</version>
-. . <scope>test</scope>
-.  </dependency>
+    <!-- TEST -->
+    <dependency>
+      <groupid>ch.qos.logback</groupid>
+      <artifactid>logback-classic</artifactid>
+      <version>1.0.7</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>jcl-over-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>jul-to-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>uk.org.lidalia</groupid>
+      <artifactid>jul-to-slf4j-config</artifactid>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>log4j-over-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>commons-logging</groupid>
+      <artifactid>commons-logging</artifactid>
+      <version>99-empty</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupid>log4j</groupid>
+      <artifactid>log4j</artifactid>
+      <version>99-empty</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
 </pre><pre class="brush:xml" title="src/test/resources/logback-test.xml"><configuration>
@@ -101,80 +101,80 @@ Application:
   <version>1.2.3</version>
 
   <properties>
-.  <slf4jversion>1.7.1</slf4jversion>
+    <slf4jversion>1.7.1</slf4jversion>
   </properties>
 
   <repositories>
-.  <repository>
-. . <id>version99</id>
-. . <url>http://version99.qos.ch/</url>
-.  </repository>
+    <repository>
+      <id>version99</id>
+      <url>http://version99.qos.ch/</url>
+    </repository>
   </repositories>
 
   <dependencies>
-.  <!-- COMPILE -->
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>slf4j-api</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>compile</scope>
-.  </dependency>
+    <!-- COMPILE -->
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>slf4j-api</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>compile</scope>
+    </dependency>
 
-.  <!-- RUNTIME -->
-.  <dependency>
-. . <groupid>ch.qos.logback</groupid>
-. . <artifactid>logback-classic</artifactid>
-. . <version>1.0.7</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>jcl-over-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>jul-to-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>uk.org.lidalia</groupid>
-. . <artifactid>jul-to-slf4j-config</artifactid>
-. . <version>1.0.0</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>org.slf4j</groupid>
-. . <artifactid>log4j-over-slf4j</artifactid>
-. . <version>${slf4jversion}</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>commons-logging</groupid>
-. . <artifactid>commons-logging</artifactid>
-. . <version>99-empty</version>
-. . <scope>runtime</scope>
-.  </dependency>
-.  <dependency>
-. . <groupid>log4j</groupid>
-. . <artifactid>log4j</artifactid>
-. . <version>99-empty</version>
-. . <scope>runtime</scope>
-.  </dependency>
+    <!-- RUNTIME -->
+    <dependency>
+      <groupid>ch.qos.logback</groupid>
+      <artifactid>logback-classic</artifactid>
+      <version>1.0.7</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>jcl-over-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>jul-to-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>uk.org.lidalia</groupid>
+      <artifactid>jul-to-slf4j-config</artifactid>
+      <version>1.0.0</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>org.slf4j</groupid>
+      <artifactid>log4j-over-slf4j</artifactid>
+      <version>${slf4jversion}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>commons-logging</groupid>
+      <artifactid>commons-logging</artifactid>
+      <version>99-empty</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupid>log4j</groupid>
+      <artifactid>log4j</artifactid>
+      <version>99-empty</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 </project>
 </pre><pre class="brush:xml" title="src/main/resources/logback.xml"><configuration>
   <jmxconfigurator></jmxconfigurator>
   <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener>
   <appender class="ch.qos.logback.core.ConsoleAppender" name="sysout">
-.  <encoder>
-. .  <pattern>%d [%thread] %-5level %logger{36} CLIENTID=%X{CLIENTID} SESSIONID=%X{SESSIONID} USERID=%X{USERID} TRANSACTIONID=%X{TRANSACTIONID} - %msg%n</pattern>
-.  </encoder>
+    <encoder>
+       <pattern>%d [%thread] %-5level %logger{36} CLIENTID=%X{CLIENTID} SESSIONID=%X{SESSIONID} USERID=%X{USERID} TRANSACTIONID=%X{TRANSACTIONID} - %msg%n</pattern>
+    </encoder>
   </appender>
   <root level="warn">
-.  <appender-ref ref="sysout">
+    <appender-ref ref="sysout">
   </appender-ref></root>
   <logger level="info" name="com.acme"></logger>
 </configuration>
