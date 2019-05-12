@@ -1,0 +1,12 @@
+---
+layout: post
+title: Git Tricks
+date: '2014-02-12T11:11:00.002Z'
+author: Robert Elliot
+tags: 
+modified_time: '2014-02-12T11:11:52.443Z'
+blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-1460290825619609188
+blogger_orig_url: http://blog.lidalia.org.uk/2014/02/git-tricks.html
+---
+
+Get completion and prompt helps and install them in .bashrc:<br />https://raw.github.com/git/git/master/contrib/completion/git-completion.bash<br />https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh<br /><pre class="brush:bash">source ~/.git-completion.bash<br />source ~/.git-prompt.sh<br /></pre><br />In .bashrc, set the branch to appear with font colour:<br /><br /><pre class="brush:bash">gitColor() {<br />  GIT_LOCATION=`__git_ps1 "%s"`<br />  GIT_COLOR="37m"<br />  if [ ! $GIT_LOCATION == "master" ];<br />  then<br />    GIT_COLOR="31m";<br />  fi<br />  echo $GIT_COLOR<br />}<br />PS1='\[\033[01;34m\]\w\[\e[0;$(gitColor)\]$(__git_ps1 " (%s)")\[\e[0;34m\] \$\[\033[00m\] '<br /></pre><br />

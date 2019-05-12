@@ -1,0 +1,12 @@
+---
+layout: post
+title: What I want in a Programming Language & Platform
+date: '2017-01-14T09:47:00.000Z'
+author: Robert Elliot
+tags: 
+modified_time: '2017-01-14T09:47:57.034Z'
+blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-7533008550535815965
+blogger_orig_url: http://blog.lidalia.org.uk/2017/01/what-i-want-in-programming-language.html
+---
+
+<br /><h2>Want</h2><div><ul><li>First class functions</li><li>References (parameters, fields, variables etc.) that are not reassignable by default</li><li>Statically checked types</li><li>Type lambdas</li><li>Higher kinded types</li><li>Private (transitive) dependencies by default</li><li>Module private members by default</li><li>Defaulted parameters</li><li>One[T] &lt;: ?[T]</li><li>One[T] &lt;: NonEmptySeq[T]</li><li>NonEmptySeq[T] &lt;: Seq[T]</li><li>One[T] &lt;: NonEmptySet[T]</li><li>NonEmptySet[T] &lt;: Set[T]</li><li>None &lt;: ?[T]</li><li>None &lt;: List[T]</li><li>?[T] &lt;: Seq[T]</li><li>?[T] &lt;: Set[T]</li><li>Seq[T].head: ?[T]</li><li>NonEmptySeq[T].head: T</li><li>Convenient ? dereferencing as syntax sugar for flatMap:<br />list: List[T] = List[T]()<br />x1: One[List[T]] = list.one<br />x: ?[List[T]] = x1<br />y1:?[T] = x?.head<br />y2:?[T] = x.flatMap(_.head)</li></ul><h2>Do Not Want</h2></div><div><ul><li>Null</li><li>Implicits of any kind</li><li>Variable infix precedence - either strict left to right, or compiler requires the brackets</li><li>Primitives that lack a common supertype</li></ul></div>
