@@ -9,4 +9,163 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-33545655732285730
 blogger_orig_url: http://blog.lidalia.org.uk/2010/11/logging-dos-and-donts.html
 ---
 
-<p>Inspired by this post on <a href="http://blog.yohanliyanage.com/2010/11/the-dark-art-of-logging/">The Dark Art of Logging</a>&nbsp;I thought I'd add a few logging do's and dont's of my own.</p><h2>DO Use <a href="http://www.slf4j.org/">SLF4J</a></h2><p>SLF4J is a very thin interface for logging, with multiple different actual logging backends supported - particularly log4j, java.util.logging and logback.  You can add your own logging backend very easily indeed, or add an adaptor to an existing logging system such as log5j.  It follows a similar API to log4j/commons-logging. </p><p>If you are writing a library you should be using it because it means you aren't dictating a logging backend to your clients - they can use whatever they like.  If you are writing an application you should use it to insulate yourself from future change - you can switch from log4j to logback to java.util.logging to some other logging backend as yet unwritten at will without making code changes. </p><p>This is a very brief argument for SLF4J - there are more in depth ones referenced <a href="http://www.slf4j.org/docs.html">here</a>.</p><h2>DO Use SLF4J's <a href="http://www.slf4j.org/faq.html#logging_performance">Parameterized Logging</a></h2><p>Traditionally debug logging statements involving expensive string concatenation are wrapped in a check to save the expense of generating the message when the log is disabled:</p><pre class="brush:java"><br />if (log.isDebugEnabled()) {<br />    log.debug("created user[" + user + "] with role [" + role + "]");<br />}<br /></pre><p>With SLF4J you don't need to use this rather noisy format and can get the same performance characteristics using parameterized logging:</p><pre class="brush:java"><br />log.debug("created user[{}] with role [{}]", user, role);<br /></pre><h2>DO Log the Exception Stacktrace</h2><p>This is really important.  Far too often you see code like this: <pre class="brush:java"><br />try { ... } catch (Exception e) {<br />    log.error("Something went wrong: " + e); // DON'T DO THIS - LOGS THE EXCEPTION'S TOSTRING, NOT THE ENTIRE STACKTRACE<br />}<br /></pre>By only concatenating in the exception's toString two pieces of vital information have been lost here; the stacktrace, which tells you where the problem happened, but as importantly the cause.  It is quite common to have exceptions caused by other exceptions in a chain three or more deep; and irritatingly the toString of an exception does not contain the toString of its cause.  Very often the cause was something the developer did not anticipate at all, and so without that information you are at a huge disadvantage when exploring a problem.  When logging an exception ALWAYS do this: <pre class="brush:java"><br />try { ... } catch (Exception e) {<br />    log.error("Something went wrong", e);<br />}<br /></pre>Another anti-pattern when using log4j directly is this: <pre class="brush:java"><br />private static final Logger log = org.apache.log4j.Logger.getLogger(Object.class);<br />try { ... } catch (Exception e) {<br />    log.error(e); // DON'T DO THIS - LOGS THE EXCEPTION'S TOSTRING, NOT THE ENTIRE STACKTRACE<br />}<br /></pre>You can call log4j like this because it accepts Objects and calls toString on them rather than accepting Strings, but the net effect is that you have once again discarded the stacktrace and the cause of the exception, probably accidentally.  This is another good reason for using SLF4J - the code above just won't compile because the message has to be a String in SLF4J. </p><p>A good logging backend will allow you to discard the stacktrace as part of the logging config, just like you can discard entire messages based on their level or logger, so this isn't forcing you to pollute your logs with endless stacktraces - it just means that when you have an issue you can get the stacktrace just by changing logging config, without needing to change code, repackage and redeploy. </p><h2>DO Chain Exceptions</h2><p>If you should always log the exception in order to get its cause, it follows that when catching a low level exception and throwing a higher level exception you should always pass the low level exception as a cause to the high level exception.  Never do this: <pre class="brush:java"><br />try { ... } catch (Exception lowLevelException) {<br />    throw new HighLevelException("Something went wrong doing the work"); // DON'T DO THIS - NO CAUSE!<br />}<br /></pre>Instead do this: <pre class="brush:java"><br />try { ... } catch (Exception lowLevelException) {<br />    throw new HighLevelException("Something went wrong doing the work", lowLevelException);<br />}<br /></pre></p><h2>DON'T Log Exceptions Before You Handle Them / DO Log Exceptions When You Handle Them</h2><p>This might be controversial, but I am strongly of the opinion that you should never have code like this: <pre class="brush:java"><br /><br />public static void rootMethod() {<br />    try {<br />        doHighLevelWork();<br />    } catch (HighLevelException highLevelException) {<br />        log.error("exception trying to do z", highLevelException);<br />        // recover<br />    }<br />}<br /><br />public static void doHighLevelWork() throws LowestLevelException {<br />    try {<br />        doLowLevelWork();<br />    } catch (LowLevelException lowLevelException) {<br />        log.error("high level work went wrong because of y", lowLevelException);<br />        throw new HighLevelException("high level work went wrong because of y", lowLevelException);<br />    }<br />}<br /><br />public static void doLowLevelWork() throws LowestLevelException {<br />    if ( /* something goes wrong */ ) {<br />        LowLevelException lowLevelException = new LowLevelException("it went wrong");<br />        log.error("low level work went wrong because of x", lowLevelException);<br />        throw lowLevelException;<br />    }<br />}<br /><br />public abstract class BaseException extends Exception {<br />    public BaseException(String message, Throwable cause) {<br />        super(message, cause);<br />        log.error("An exception happened", this);<br />    }<br />}<br />public class LowLevelException extends BaseException { ... }<br />public class HighLevelException extends BaseException { ... }<br /></pre>By the time the root method actually recovers, we've logged the same low level exception as error five times!  And <i>all</i> of the information was logged by the last log.error call in the root method. </p><p>You should log an exception once and only once, otherwise when examining a log file for stacktraces you are confused by the same data replicated multiple times, which obfuscates the actual cause and quantity of problems.  That leaves us with the problem of when it is you should log it.  I am strongly of the opinion that you should leave it to clients of your code to log your exception as they see fit at the point where they actually handle it (so not when re-throwing it as the cause of a higher level exception).  You <a href="{{ site.baseurl }}{% post_url 2010-01-29-checked-and-unchecked-exceptions %}">don't know how serious clients think an exception is</a> when you throw that exception.  Let them decide what to do with it, including logging it. </p><p>So what about the extra contextual information you were logging at each level?  Add it to the exception itself, ensuring that it will be printed in the exception's message and also be available programatically to your clients.  Then when it is logged with stacktrace out will come all that contextual information, just as you need it. </p><h2>DO Log Uncaught Exceptions</h2><p>If you're going to follow the advice above then obviously it's vital that exception does get logged at some point, so make sure your application logs uncaught exceptions when it handles them.  The default behaviour of a standalone Java app is to call exception.printStackTrace(); you can override this as follows: <pre class="brush:java"><br />Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {<br />    @Override<br />    public void uncaughtException(Thread thread, Throwable e) {<br />        Logger log = LoggerFactory.getLogger(thread.getClass());<br />        log.error("Exception in thread [" + thread.getName() + "]", e);<br />    }<br />});<br /></pre>In a webapp you can send the uncaught exception to a jsp page, where you have full control and can log it: <pre class="brush:xml"><br /><error-page><br />  <exception-type>java.lang.Exception</exception-type><br />  <location>/error.jsp</location><br /></error-page><br /></pre>In Spring you can <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-exceptionhandlers">setup exception resolvers</a>. </p><h2>DO Use Aspect Oriented Programming for Trace Logging</h2><p>If you're writing code like this: <pre class="brush:java"><br />public String doSomeWork(String param1, Integer param2) {<br />    log.trace("&gt; doSomeWork[param1={}, param2={}]", param1, param2);<br />    String result = /* work done here */;<br />    log.trace("&lt; doSomeWork[{}]", result);<br />    return result;<br />}<br /></pre>in every method then it's time to find out about <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">Aspect Oriented Programming</a>.  You can use something like AspectJ to add the trace statements to all methods at compile time, resulting in bytecode that contains the trace calls, or you can use instrumentation to add them to the loaded class at runtime.  You could even use <a href="http://groovy.codehaus.org/Local+AST+Transformations">Groovy AST transformations</a> or <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-introduction-proxies">Spring proxies</a>, though the latter will only add trace logging to calls between objects.  I'll try and blog about these further in future, but the net result is you still get your trace logging but your method now looks like this: <pre class="brush:java"><br />public String doSomeWork(String param1, Integer param2) {<br />    String result = /* work done here */;<br />    return result;<br />}<br /></pre></p><h2>DON'T Pass Sensitive Data Around as Strings</h2><p>A corollary of using aspect based trace logging is that there is a grave danger of logging sensitive information.  Consider the following method: <pre class="brush:java"><br />public String login(String username, String password) {<br />    String token = ...;<br />    return token;<br />}<br /></pre>Apply a trace aspect to this and you can turn on output like this: <pre><br />TRACE &gt; login[username=MYUSERNAME,password=abc123]<br />TRACE &lt; login[sensitivesessiontoken]<br /></pre>Less than ideal from a security perspective! </p><p>If you follow good Object Oriented practices and wrap these values in small classes, you can make the toString method return an obfuscated value in production environments and an unobfuscated one in development environments, protecting you from any accidental output from toString methods: <pre class="brush:java"><br />class Password {<br />    private String passwordValue;<br />    ...<br />    public String toString() {<br />        if (env == PROD) {<br />            return "[password concealed]";<br />        } else {<br />            return passwordValue;<br />        }<br />    }<br />}<br /><br />class Token {<br />    private String tokenValue;<br />    ...<br />    public String toString() {<br />        if (env == PROD) {<br />            return partiallyObfuscate(tokenValue);<br />        } else {<br />            return tokenValue;<br />        }<br />    }<br />}<br /><br />public Token login(Username username, Password password) {<br />    Token token = ...;<br />    return token;<br />}<br /></pre>Now your log output is rather less insecure: <pre><br />INFO > login[username=MYUSERNAME,password=[password concealed]]<br />INFO < login[...itivesessiont...]<br /></pre></p>
+Inspired by this post on <a href="http://blog.yohanliyanage.com/2010/11/the-dark-art-of-logging/">The Dark Art of Logging</a>&nbsp;I thought I'd add a few logging do's and dont's of my own.
+
+<h2>DO Use <a href="http://www.slf4j.org/">SLF4J</a></h2>SLF4J is a very thin interface for logging, with multiple different actual logging backends supported - particularly log4j, java.util.logging and logback. You can add your own logging backend very easily indeed, or add an adaptor to an existing logging system such as log5j. It follows a similar API to log4j/commons-logging.
+
+If you are writing a library you should be using it because it means you aren't dictating a logging backend to your clients - they can use whatever they like. If you are writing an application you should use it to insulate yourself from future change - you can switch from log4j to logback to java.util.logging to some other logging backend as yet unwritten at will without making code changes.
+
+This is a very brief argument for SLF4J - there are more in depth ones referenced <a href="http://www.slf4j.org/docs.html">here</a>.
+
+<h2>DO Use SLF4J's <a href="http://www.slf4j.org/faq.html#logging_performance">Parameterized Logging</a></h2>Traditionally debug logging statements involving expensive string concatenation are wrapped in a check to save the expense of generating the message when the log is disabled:
+
+<pre class="brush:java">
+if (log.isDebugEnabled()) {
+.  log.debug("created user[" + user + "] with role [" + role + "]");
+}
+</pre>With SLF4J you don't need to use this rather noisy format and can get the same performance characteristics using parameterized logging:
+
+<pre class="brush:java">
+log.debug("created user[{}] with role [{}]", user, role);
+</pre><h2>DO Log the Exception Stacktrace</h2>This is really important. Far too often you see code like this: <pre class="brush:java">
+try { ... } catch (Exception e) {
+.  log.error("Something went wrong: " + e); // DON'T DO THIS - LOGS THE EXCEPTION'S TOSTRING, NOT THE ENTIRE STACKTRACE
+}
+</pre>By only concatenating in the exception's toString two pieces of vital information have been lost here; the stacktrace, which tells you where the problem happened, but as importantly the cause. It is quite common to have exceptions caused by other exceptions in a chain three or more deep; and irritatingly the toString of an exception does not contain the toString of its cause. Very often the cause was something the developer did not anticipate at all, and so without that information you are at a huge disadvantage when exploring a problem. When logging an exception ALWAYS do this: <pre class="brush:java">
+try { ... } catch (Exception e) {
+.  log.error("Something went wrong", e);
+}
+</pre>Another anti-pattern when using log4j directly is this: <pre class="brush:java">
+private static final Logger log = org.apache.log4j.Logger.getLogger(Object.class);
+try { ... } catch (Exception e) {
+.  log.error(e); // DON'T DO THIS - LOGS THE EXCEPTION'S TOSTRING, NOT THE ENTIRE STACKTRACE
+}
+</pre>You can call log4j like this because it accepts Objects and calls toString on them rather than accepting Strings, but the net effect is that you have once again discarded the stacktrace and the cause of the exception, probably accidentally. This is another good reason for using SLF4J - the code above just won't compile because the message has to be a String in SLF4J.
+
+A good logging backend will allow you to discard the stacktrace as part of the logging config, just like you can discard entire messages based on their level or logger, so this isn't forcing you to pollute your logs with endless stacktraces - it just means that when you have an issue you can get the stacktrace just by changing logging config, without needing to change code, repackage and redeploy.
+
+<h2>DO Chain Exceptions</h2>If you should always log the exception in order to get its cause, it follows that when catching a low level exception and throwing a higher level exception you should always pass the low level exception as a cause to the high level exception. Never do this: <pre class="brush:java">
+try { ... } catch (Exception lowLevelException) {
+.  throw new HighLevelException("Something went wrong doing the work"); // DON'T DO THIS - NO CAUSE!
+}
+</pre>Instead do this: <pre class="brush:java">
+try { ... } catch (Exception lowLevelException) {
+.  throw new HighLevelException("Something went wrong doing the work", lowLevelException);
+}
+</pre>
+
+<h2>DON'T Log Exceptions Before You Handle Them / DO Log Exceptions When You Handle Them</h2>This might be controversial, but I am strongly of the opinion that you should never have code like this: <pre class="brush:java">
+
+public static void rootMethod() {
+.  try {
+. .   doHighLevelWork();
+.  } catch (HighLevelException highLevelException) {
+. .   log.error("exception trying to do z", highLevelException);
+. .   // recover
+.  }
+}
+
+public static void doHighLevelWork() throws LowestLevelException {
+.  try {
+. .   doLowLevelWork();
+.  } catch (LowLevelException lowLevelException) {
+. .   log.error("high level work went wrong because of y", lowLevelException);
+. .   throw new HighLevelException("high level work went wrong because of y", lowLevelException);
+.  }
+}
+
+public static void doLowLevelWork() throws LowestLevelException {
+.  if ( /* something goes wrong */ ) {
+. .   LowLevelException lowLevelException = new LowLevelException("it went wrong");
+. .   log.error("low level work went wrong because of x", lowLevelException);
+. .   throw lowLevelException;
+.  }
+}
+
+public abstract class BaseException extends Exception {
+.  public BaseException(String message, Throwable cause) {
+. .   super(message, cause);
+. .   log.error("An exception happened", this);
+.  }
+}
+public class LowLevelException extends BaseException { ... }
+public class HighLevelException extends BaseException { ... }
+</pre>By the time the root method actually recovers, we've logged the same low level exception as error five times. And _all_ of the information was logged by the last log.error call in the root method.
+
+You should log an exception once and only once, otherwise when examining a log file for stacktraces you are confused by the same data replicated multiple times, which obfuscates the actual cause and quantity of problems. That leaves us with the problem of when it is you should log it. I am strongly of the opinion that you should leave it to clients of your code to log your exception as they see fit at the point where they actually handle it (so not when re-throwing it as the cause of a higher level exception). You <a href="{{ site.baseurl }}{% post_url 2010-01-29-checked-and-unchecked-exceptions %}">don't know how serious clients think an exception is</a> when you throw that exception. Let them decide what to do with it, including logging it.
+
+So what about the extra contextual information you were logging at each level. Add it to the exception itself, ensuring that it will be printed in the exception's message and also be available programatically to your clients. Then when it is logged with stacktrace out will come all that contextual information, just as you need it.
+
+<h2>DO Log Uncaught Exceptions</h2>If you're going to follow the advice above then obviously it's vital that exception does get logged at some point, so make sure your application logs uncaught exceptions when it handles them. The default behaviour of a standalone Java app is to call exception.printStackTrace(); you can override this as follows: <pre class="brush:java">
+Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+.  @Override
+.  public void uncaughtException(Thread thread, Throwable e) {
+. .   Logger log = LoggerFactory.getLogger(thread.getClass());
+. .   log.error("Exception in thread [" + thread.getName() + "]", e);
+.  }
+});
+</pre>In a webapp you can send the uncaught exception to a jsp page, where you have full control and can log it: <pre class="brush:xml">
+<error-page>
+  <exception-type>java.lang.Exception</exception-type>
+  <location>/error.jsp</location>
+</error-page>
+</pre>In Spring you can <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-exceptionhandlers">setup exception resolvers</a>.
+
+<h2>DO Use Aspect Oriented Programming for Trace Logging</h2>If you're writing code like this: <pre class="brush:java">
+public String doSomeWork(String param1, Integer param2) {
+.  log.trace("&gt; doSomeWork[param1={}, param2={}]", param1, param2);
+.  String result = /* work done here */;
+.  log.trace("&lt; doSomeWork[{}]", result);
+.  return result;
+}
+</pre>in every method then it's time to find out about <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">Aspect Oriented Programming</a>. You can use something like AspectJ to add the trace statements to all methods at compile time, resulting in bytecode that contains the trace calls, or you can use instrumentation to add them to the loaded class at runtime. You could even use <a href="http://groovy.codehaus.org/Local+AST+Transformations">Groovy AST transformations</a> or <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-introduction-proxies">Spring proxies</a>, though the latter will only add trace logging to calls between objects. I'll try and blog about these further in future, but the net result is you still get your trace logging but your method now looks like this: <pre class="brush:java">
+public String doSomeWork(String param1, Integer param2) {
+.  String result = /* work done here */;
+.  return result;
+}
+</pre>
+
+<h2>DON'T Pass Sensitive Data Around as Strings</h2>A corollary of using aspect based trace logging is that there is a grave danger of logging sensitive information. Consider the following method: <pre class="brush:java">
+public String login(String username, String password) {
+.  String token = ...;
+.  return token;
+}
+</pre>Apply a trace aspect to this and you can turn on output like this: <pre>
+TRACE &gt; login[username=MYUSERNAME,password=abc123]
+TRACE &lt; login[sensitivesessiontoken]
+</pre>Less than ideal from a security perspective!
+
+If you follow good Object Oriented practices and wrap these values in small classes, you can make the toString method return an obfuscated value in production environments and an unobfuscated one in development environments, protecting you from any accidental output from toString methods: <pre class="brush:java">
+class Password {
+.  private String passwordValue;
+.  ...
+.  public String toString() {
+. .   if (env == PROD) {
+. . . . return "[password concealed]";
+. .   } else {
+. . . . return passwordValue;
+. .   }
+.  }
+}
+
+class Token {
+.  private String tokenValue;
+.  ...
+.  public String toString() {
+. .   if (env == PROD) {
+. . . . return partiallyObfuscate(tokenValue);
+. .   } else {
+. . . . return tokenValue;
+. .   }
+.  }
+}
+
+public Token login(Username username, Password password) {
+.  Token token = ...;
+.  return token;
+}
+</pre>Now your log output is rather less insecure: <pre>
+INFO > login[username=MYUSERNAME,password=[password concealed]]
+INFO < login[...itivesessiont...]
+</pre>
+

@@ -9,4 +9,173 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-41225935737377229
 blogger_orig_url: http://blog.lidalia.org.uk/2013/02/maven-logging-config-for-libraries.html
 ---
 
-A quick dump of my standard Maven poms for both libraries &amp; applications.<br /><br />Basic theory - pipe everything to SLF4J &amp; use Logback as the SLF4J implementation.<br /><br />A library should ONLY have a dependency on slf4j-api - it should not use classes in any logging implementation.<br /><br />Libraries:<br /><pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"><br />  <modelversion>4.0.0</modelversion><br />  <groupid>com.acme</groupid><br />  <artifactid>my_library</artifactid><br />  <version>1.2.3</version><br /><br />  <properties><br />    <slf4jversion>1.7.1</slf4jversion><br />  </properties><br /><br />  <repositories><br />    <repository><br />      <id>version99</id><br />      <url>http://version99.qos.ch/</url><br />    </repository><br />  </repositories><br /><br />  <dependencies><br />    <!-- COMPILE --><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>slf4j-api</artifactid><br />      <version>${slf4j.version}</version><br />      <scope>compile</scope><br />    </dependency><br /><br />    <!-- TEST --><br />    <dependency><br />      <groupid>ch.qos.logback</groupid><br />      <artifactid>logback-classic</artifactid><br />      <version>1.0.7</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>jcl-over-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>jul-to-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>uk.org.lidalia</groupid><br />      <artifactid>jul-to-slf4j-config</artifactid><br />      <version>1.0.0</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>log4j-over-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>commons-logging</groupid><br />      <artifactid>commons-logging</artifactid><br />      <version>99-empty</version><br />      <scope>test</scope><br />    </dependency><br />    <dependency><br />      <groupid>log4j</groupid><br />      <artifactid>log4j</artifactid><br />      <version>99-empty</version><br />      <scope>test</scope><br />    </dependency><br />  </dependencies><br /></project><br /></pre><pre class="brush:xml" title="src/test/resources/logback-test.xml"><configuration><br />  <jmxconfigurator></jmxconfigurator><br />  <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener><br />  <root level="off"></root><br /></configuration><br /></pre><br />Application:<br /><pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"><br />  <modelversion>4.0.0</modelversion><br />  <groupid>com.acme</groupid><br />  <artifactid>my_application</artifactid><br />  <version>1.2.3</version><br /><br />  <properties><br />    <slf4jversion>1.7.1</slf4jversion><br />  </properties><br /><br />  <repositories><br />    <repository><br />      <id>version99</id><br />      <url>http://version99.qos.ch/</url><br />    </repository><br />  </repositories><br /><br />  <dependencies><br />    <!-- COMPILE --><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>slf4j-api</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>compile</scope><br />    </dependency><br /><br />    <!-- RUNTIME --><br />    <dependency><br />      <groupid>ch.qos.logback</groupid><br />      <artifactid>logback-classic</artifactid><br />      <version>1.0.7</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>jcl-over-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>jul-to-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>uk.org.lidalia</groupid><br />      <artifactid>jul-to-slf4j-config</artifactid><br />      <version>1.0.0</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>org.slf4j</groupid><br />      <artifactid>log4j-over-slf4j</artifactid><br />      <version>${slf4jversion}</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>commons-logging</groupid><br />      <artifactid>commons-logging</artifactid><br />      <version>99-empty</version><br />      <scope>runtime</scope><br />    </dependency><br />    <dependency><br />      <groupid>log4j</groupid><br />      <artifactid>log4j</artifactid><br />      <version>99-empty</version><br />      <scope>runtime</scope><br />    </dependency><br />  </dependencies><br /></project><br /></pre><pre class="brush:xml" title="src/main/resources/logback.xml"><configuration><br />  <jmxconfigurator></jmxconfigurator><br />  <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener><br />  <appender class="ch.qos.logback.core.ConsoleAppender" name="sysout"><br />    <encoder><br />       <pattern>%d [%thread] %-5level %logger{36} CLIENTID=%X{CLIENTID} SESSIONID=%X{SESSIONID} USERID=%X{USERID} TRANSACTIONID=%X{TRANSACTIONID} - %msg%n</pattern><br />    </encoder><br />  </appender><br />  <root level="warn"><br />    <appender-ref ref="sysout"><br />  </appender-ref></root><br />  <logger level="info" name="com.acme"></logger><br /></configuration><br /></pre>
+A quick dump of my standard Maven poms for both libraries &amp; applications.
+
+Basic theory - pipe everything to SLF4J &amp; use Logback as the SLF4J implementation.
+
+A library should ONLY have a dependency on slf4j-api - it should not use classes in any logging implementation.
+
+Libraries:
+<pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelversion>4.0.0</modelversion>
+  <groupid>com.acme</groupid>
+  <artifactid>my_library</artifactid>
+  <version>1.2.3</version>
+
+  <properties>
+.  <slf4jversion>1.7.1</slf4jversion>
+  </properties>
+
+  <repositories>
+.  <repository>
+. . <id>version99</id>
+. . <url>http://version99.qos.ch/</url>
+.  </repository>
+  </repositories>
+
+  <dependencies>
+.  <!-- COMPILE -->
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>slf4j-api</artifactid>
+. . <version>${slf4j.version}</version>
+. . <scope>compile</scope>
+.  </dependency>
+
+.  <!-- TEST -->
+.  <dependency>
+. . <groupid>ch.qos.logback</groupid>
+. . <artifactid>logback-classic</artifactid>
+. . <version>1.0.7</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>jcl-over-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>jul-to-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>uk.org.lidalia</groupid>
+. . <artifactid>jul-to-slf4j-config</artifactid>
+. . <version>1.0.0</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>log4j-over-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>commons-logging</groupid>
+. . <artifactid>commons-logging</artifactid>
+. . <version>99-empty</version>
+. . <scope>test</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>log4j</groupid>
+. . <artifactid>log4j</artifactid>
+. . <version>99-empty</version>
+. . <scope>test</scope>
+.  </dependency>
+  </dependencies>
+</project>
+</pre><pre class="brush:xml" title="src/test/resources/logback-test.xml"><configuration>
+  <jmxconfigurator></jmxconfigurator>
+  <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener>
+  <root level="off"></root>
+</configuration>
+</pre>
+Application:
+<pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelversion>4.0.0</modelversion>
+  <groupid>com.acme</groupid>
+  <artifactid>my_application</artifactid>
+  <version>1.2.3</version>
+
+  <properties>
+.  <slf4jversion>1.7.1</slf4jversion>
+  </properties>
+
+  <repositories>
+.  <repository>
+. . <id>version99</id>
+. . <url>http://version99.qos.ch/</url>
+.  </repository>
+  </repositories>
+
+  <dependencies>
+.  <!-- COMPILE -->
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>slf4j-api</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>compile</scope>
+.  </dependency>
+
+.  <!-- RUNTIME -->
+.  <dependency>
+. . <groupid>ch.qos.logback</groupid>
+. . <artifactid>logback-classic</artifactid>
+. . <version>1.0.7</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>jcl-over-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>jul-to-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>uk.org.lidalia</groupid>
+. . <artifactid>jul-to-slf4j-config</artifactid>
+. . <version>1.0.0</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>org.slf4j</groupid>
+. . <artifactid>log4j-over-slf4j</artifactid>
+. . <version>${slf4jversion}</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>commons-logging</groupid>
+. . <artifactid>commons-logging</artifactid>
+. . <version>99-empty</version>
+. . <scope>runtime</scope>
+.  </dependency>
+.  <dependency>
+. . <groupid>log4j</groupid>
+. . <artifactid>log4j</artifactid>
+. . <version>99-empty</version>
+. . <scope>runtime</scope>
+.  </dependency>
+  </dependencies>
+</project>
+</pre><pre class="brush:xml" title="src/main/resources/logback.xml"><configuration>
+  <jmxconfigurator></jmxconfigurator>
+  <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener>
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="sysout">
+.  <encoder>
+. .  <pattern>%d [%thread] %-5level %logger{36} CLIENTID=%X{CLIENTID} SESSIONID=%X{SESSIONID} USERID=%X{USERID} TRANSACTIONID=%X{TRANSACTIONID} - %msg%n</pattern>
+.  </encoder>
+  </appender>
+  <root level="warn">
+.  <appender-ref ref="sysout">
+  </appender-ref></root>
+  <logger level="info" name="com.acme"></logger>
+</configuration>
+</pre>

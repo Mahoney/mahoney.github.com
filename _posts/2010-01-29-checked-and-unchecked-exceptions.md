@@ -55,7 +55,7 @@ re-examine their assumption that the array always has a first element - perhaps
 look at the documentation or the code of the array provider. And of course it is
 highly likely it represents a recoverable condition in some cases.
 
-So why was it made a RuntimeException?  Because it's so massively arduous to
+So why was it made a RuntimeException. Because it's so massively arduous to
 persuade the compiler that you _have_ thought about a checked exception. A
 try/catch block with indented code is very ugly to the eye, a genuinely
 expensive bit of boilerplate; putting it round every array access in order to
@@ -86,18 +86,18 @@ methods throw signature. Something like this:
 ```java
 class Wrapper {
 
-    void foo() throws FooException {}
-    
-    // does not compile - unhandled FooException
-    void bar1() {
-        foo();
-    }
-    
-    // compiles
-    void bar2() {
-       @unchecked
-       foo();
-    }
+.  void foo() throws FooException {}
+.  
+.  // does not compile - unhandled FooException
+.  void bar1() {
+. .   foo();
+.  }
+.  
+.  // compiles
+.  void bar2() {
+. .  @unchecked
+. .  foo();
+.  }
 }
 ```
 
@@ -107,22 +107,22 @@ unchecked, as so:
 
 class Wrapper {
 
-    // All 4 of these represent different conditions that may well happen 
-    // depending on where and how foo is called
-    void foo() throws Foo1Exception, Foo2Exception, Foo3Exception, Foo4Exception {}
-    
-    // can't sensibly handle Foo1Exception in this method but it is likely to 
-    // happen so warn clients to think about it...
-    void bar() throws Foo1Exception {
-    
-       try {
-           // Nothing sensible anyone can do with these if they happen
-           @unchecked({Foo3Exception.class, Foo4Exception.class}) 
-           foo();
-       } catch (Foo2Exception fe) {
-           // it makes sense to handle Foo2Exception here
-       }
-    }
+.  // All 4 of these represent different conditions that may well happen 
+.  // depending on where and how foo is called
+.  void foo() throws Foo1Exception, Foo2Exception, Foo3Exception, Foo4Exception {}
+.  
+.  // can't sensibly handle Foo1Exception in this method but it is likely to 
+.  // happen so warn clients to think about it...
+.  void bar() throws Foo1Exception {
+.  
+. .  try {
+. . .   // Nothing sensible anyone can do with these if they happen
+. . .   @unchecked({Foo3Exception.class, Foo4Exception.class}) 
+. . .   foo();
+. .  } catch (Foo2Exception fe) {
+. . .   // it makes sense to handle Foo2Exception here
+. .  }
+.  }
 }
 ```
 

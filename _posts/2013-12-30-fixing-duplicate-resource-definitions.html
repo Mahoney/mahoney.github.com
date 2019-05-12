@@ -10,4 +10,71 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-91549879331063208
 blogger_orig_url: http://blog.lidalia.org.uk/2013/12/fixing-duplicate-resource-definitions.html
 ---
 
-Recently I have been working on a puppet module which defines a new resource which in turn requires a certain directory to exist, as so:<br /><br /><pre title="mything/init.pp">define mything ($log_dir='/var/log/mythings') {<br /><br />  notify { "${name} installed!": }<br /><br />  file { $log_dir:<br />    ensure => directory<br />  }<br /><br />  file { "${log_dir}/${name}":<br />    ensure => directory,<br />    require => File[$log_dir]<br />  }<br />}<br /></pre><br />As you can see the log directory is parameterised with a default, combining flexibility with ease of use.<br /><br />As it happens there's no reason why multiple of these mythings shouldn't be installed on the same host, as so:<br /><br /><pre>mything { "thing1": }<br />mything { "thing2": }<br /></pre><br />But of course that causes puppet to bomb out:<br />Duplicate definition: File[/var/log/mythings] is already defined<br /><br />The solution I've found is to realise a virtual resource defined in an unparameterised class, as so:<br /><br /><pre title="mything/init.pp">define mything ($log_dir='/var/log/mythings') {<br /><br />  notify { "${name} installed!": }<br /><br />  include mything::defaultlogging<br /><br />  File <| title == $log_dir |><br /><br />  file { "${log_dir}/${name}":<br />    ensure => directory,<br />    require => File[$log_dir]<br />  }<br />}<br /><br /></pre><pre title="mything/defaultlogging.pp">class mything::defaultlogging {<br />  @file { '/var/log/mythings':<br />    ensure => directory<br />  }<br />}<br /></pre><br />Now the following works:<br /><pre>mything { "thing1": }<br />mything { "thing2": }<br /></pre><br />If we want to override and use a different log directory as follows:<br /><pre>mything { "thing3":<br />  log_dir => '/var/log/otherthing'<br />}<br /></pre>we get this error:<br />Could not find dependency File[/var/log/otherthing] for File[/var/log/otherthing/thing3] at /etc/puppet/modules/mything/manifests/init.pp:12<br /><br />This just means we need to define the new log directory as so:<br /><pre>$other_log_dir='/var/log/otherthing'<br />@file { $other_log_dir:<br />  ensure => directory<br />}<br />mything { "thing3":<br />  log_dir => $other_log_dir<br />}<br /></pre>and all is good. Importantly, applying this manifest will <b>not</b> create the default /var/log/mythings directory.
+Recently I have been working on a puppet module which defines a new resource which in turn requires a certain directory to exist, as so:
+
+<pre title="mything/init.pp">define mything ($log_dir='/var/log/mythings') {
+
+  notify { "${name} installed!": }
+
+  file { $log_dir:
+.  ensure => directory
+  }
+
+  file { "${log_dir}/${name}":
+.  ensure => directory,
+.  require => File[$log_dir]
+  }
+}
+</pre>
+As you can see the log directory is parameterised with a default, combining flexibility with ease of use.
+
+As it happens there's no reason why multiple of these mythings shouldn't be installed on the same host, as so:
+
+<pre>mything { "thing1": }
+mything { "thing2": }
+</pre>
+But of course that causes puppet to bomb out:
+Duplicate definition: File[/var/log/mythings] is already defined
+
+The solution I've found is to realise a virtual resource defined in an unparameterised class, as so:
+
+<pre title="mything/init.pp">define mything ($log_dir='/var/log/mythings') {
+
+  notify { "${name} installed!": }
+
+  include mything::defaultlogging
+
+  File <| title == $log_dir |>
+
+  file { "${log_dir}/${name}":
+.  ensure => directory,
+.  require => File[$log_dir]
+  }
+}
+
+</pre><pre title="mything/defaultlogging.pp">class mything::defaultlogging {
+  @file { '/var/log/mythings':
+.  ensure => directory
+  }
+}
+</pre>
+Now the following works:
+<pre>mything { "thing1": }
+mything { "thing2": }
+</pre>
+If we want to override and use a different log directory as follows:
+<pre>mything { "thing3":
+  log_dir => '/var/log/otherthing'
+}
+</pre>we get this error:
+Could not find dependency File[/var/log/otherthing] for File[/var/log/otherthing/thing3] at /etc/puppet/modules/mything/manifests/init.pp:12
+
+This just means we need to define the new log directory as so:
+<pre>$other_log_dir='/var/log/otherthing'
+@file { $other_log_dir:
+  ensure => directory
+}
+mything { "thing3":
+  log_dir => $other_log_dir
+}
+</pre>and all is good. Importantly, applying this manifest will <b>not</b> create the default /var/log/mythings directory.
