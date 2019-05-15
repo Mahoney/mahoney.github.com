@@ -16,7 +16,10 @@ Basic theory - pipe everything to SLF4J &amp; use Logback as the SLF4J implement
 A library should ONLY have a dependency on slf4j-api - it should not use classes in any logging implementation.
 
 Libraries:
-<pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+#### pom.xml
+```xml
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelversion>4.0.0</modelversion>
   <groupid>com.acme</groupid>
   <artifactid>my_library</artifactid>
@@ -87,14 +90,19 @@ Libraries:
     </dependency>
   </dependencies>
 </project>
-</pre><pre class="brush:xml" title="src/test/resources/logback-test.xml"><configuration>
+```
+#### src/test/resources/logback-test.xml
+```xml
+<configuration>
   <jmxconfigurator></jmxconfigurator>
   <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener>
   <root level="off"></root>
 </configuration>
-</pre>
+```
 Application:
-<pre class="brush:xml" title="pom.xml"><project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+#### pom.xml
+```xml
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelversion>4.0.0</modelversion>
   <groupid>com.acme</groupid>
   <artifactid>my_application</artifactid>
@@ -165,7 +173,10 @@ Application:
     </dependency>
   </dependencies>
 </project>
-</pre><pre class="brush:xml" title="src/main/resources/logback.xml"><configuration>
+```
+#### src/main/resources/logback.xml
+```xml
+<configuration>
   <jmxconfigurator></jmxconfigurator>
   <contextlistener class="ch.qos.logback.classic.jul.LevelChangePropagator"></contextlistener>
   <appender class="ch.qos.logback.core.ConsoleAppender" name="sysout">
@@ -178,4 +189,4 @@ Application:
   </appender-ref></root>
   <logger level="info" name="com.acme"></logger>
 </configuration>
-</pre>
+```

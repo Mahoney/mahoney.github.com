@@ -19,10 +19,11 @@ I'm pleased to announce the release of sysout-over-slf4j version 1.0.2, a bridge
  The artifacts can be downloaded here:
 [http://github.com/Mahoney/sysout-over-slf4j/downloads](http://github.com/Mahoney/sysout-over-slf4j/downloads)
 
- Or via Maven: <pre class="brush:xml"><dependency>
+ Or via Maven:
+ ```xml
+ <dependency>
    <groupid>uk.org.lidalia</groupid>
    <artifactid>sysout-over-slf4j</artifactid>
    <version>1.0.2</version>
 </dependency>
-</pre>
-
+```

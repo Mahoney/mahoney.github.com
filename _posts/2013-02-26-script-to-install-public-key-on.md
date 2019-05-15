@@ -10,7 +10,8 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/02/script-to-install-public-ke
 ---
 
 Here's a little script that can upload a public key onto a server - you could run it for multiple servers at the same time. Requires sshpass to be installed.
-<pre class="brush:bash">stty -echo
+```bash
+stty -echo
 read -p "Password: " passw; echo
 stty echo
 
@@ -37,4 +38,5 @@ function updateKey {
 }
 
 updateKey myhostname
-</pre>
+
+```

@@ -15,7 +15,8 @@ Recently had a lot of pain with tests containing non-ASCII characters; both Fitn
 
  However, [this answer on stackoverflow](http://stackoverflow.com/questions/361975/setting-the-default-java-character-encoding/623036#623036) gave me a way to set it for all Java everywhere on the Mac:
 
- <pre>export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8</pre> If you want this to be persistent, then add this property as explained in [this other answer on stackoverflow](http://stackoverflow.com/questions/135688/setting-environment-variables-in-os-x/588442#588442).
+ `export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8`
+ If you want this to be persistent, then add this property as explained in [this other answer on stackoverflow](http://stackoverflow.com/questions/135688/setting-environment-variables-in-os-x/588442#588442).
 
  * There's a bug in GMaven 1.3 - it doesn't obey the project.build.sourceEncoding property in Maven, for test files at any rate
 

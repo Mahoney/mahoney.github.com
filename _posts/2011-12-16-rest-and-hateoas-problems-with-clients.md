@@ -16,18 +16,20 @@ The client is then meant to retrieve any other URIs from links embedded in the e
 I have a couple of concerns with this theory, which I'm going to explore in this blog post.
 
 * ## Programming such a client is more arduous
-Imagine that as a client there's some specific resource you want to retrieve - perhaps a representation of a customer. If you are obeying the principles of HATEOAS you go to the root URI, and retrieve the following resource: <pre>
+Imagine that as a client there's some specific resource you want to retrieve - perhaps a representation of a customer. If you are obeying the principles of HATEOAS you go to the root URI, and retrieve the following resource:
+```json
 {
-  ...
   "link": {
     "rel":"customer",
     "href-pattern":"/customers/${customerName}"
   }
-  ...
 }
-</pre>You then find the link with a rel of customer, get the href-pattern attribute, and use that to build the URI to the customer you want. Then you make sure you have configured a sensible HTTP cache for the root resource, otherwise that extra request to the root resource is an expensive overhead on every request for a customer.
+```
 
- Or you behave badly, disobey HATEOAS and hard code the URI pattern: <pre>/customers/${customerName}</pre>
+You then find the link with a rel of customer, get the href-pattern attribute, and use that to build the URI to the customer you want. Then you make sure you have configured a sensible HTTP cache for the root resource, otherwise that extra request to the root resource is an expensive overhead on every request for a customer.
+
+Or you behave badly, disobey HATEOAS and hard code the URI pattern: `/customers/${customerName}`
+
 
 * ## URIs cannot be hidden from the client
 Many programming languages provide a means to enforce which elements are public, and hence suitable for clients to bind to, and which are not - normally with visibility modifiers of some form. There are frequently ways for clients to get round these restrictions, but at a bare minimum it makes it very clear to the client that they are not meant to be doing it and upgrades are likely to break them.

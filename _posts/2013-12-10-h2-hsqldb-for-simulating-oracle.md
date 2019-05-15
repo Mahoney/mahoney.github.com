@@ -14,7 +14,8 @@ H2 &amp; HSQLDB are two Java in-memory databases. They both offer a degree of su
 ## H2
 ### How to setup:
 
-<pre class="brush:java">import org.h2.Driver;
+```java
+import org.h2.Driver;
 import javax.sql.DataSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -23,7 +24,9 @@ DataSource dataSource = new DriverManagerDataSource(
     "jdbc:h2:mem:MYDBNAME;MVCC=true;DB_CLOSE_DELAY=-1;MODE=Oracle",
     "sa",
     "");
-</pre>
+
+```
+
 DB_CLOSE_DELAY is vital here or the database is deleted whenever the number of connections drops to zero - a highly unintuitive situation.
 
 ### Pros:
@@ -34,7 +37,8 @@ The transaction capabilities are not as good as HSQLDB. Specifically, if you use
 
 ## HSQLDB
 ### How to setup:
-<pre class="brush:java">import org.hsqldb.jdbc.JDBCDriver;
+```java
+import org.hsqldb.jdbc.JDBCDriver;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -47,16 +51,20 @@ DataSource dataSource = new DriverManagerDataSource(
 JdbcTemplate&nbsp; jdbcTemplate = new JdbcTemplate(dataSource)
 jdbcTemplate.execute("set database sql syntax ORA TRUE;");
 jdbcTemplate.execute("set database transaction control MVCC;");
-</pre>
+
+```
+
 
 ### Pros:
 MVCC with a transaction isolation of serializable works as expected - other transactions can continue to write whilst a transaction sees only the state of the DB when it started.
 
 ### Cons:
 Support for Oracle syntax, particularly in DDL, is patchy - I was unable to run the following, which works fine in Oracle:
-<pre class="brush:sql">CREATE SEQUENCE SQ_TABLE_A;
+```sql
+CREATE SEQUENCE SQ_TABLE_A;
 CREATE TABLE TABLE_A (
   ID NUMBER(22,0) NOT NULL DEFAULT (SELECT SQ_TABLE_A.NEXTVAL from DUAL),
   SOME_DATA NUMBER(22,0) NOT NULL,
   TSTAMP TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP);
-</pre>
+
+```
