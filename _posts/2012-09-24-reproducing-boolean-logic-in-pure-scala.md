@@ -40,5 +40,5 @@ All told I'm pretty impressed - the only ugliness I failed to massage away was t
 (Of course, there's a certain irony in reimplementing if/else if/else by using polymorphism - which is the purist OO way of avoiding if/else in the first place...)
 
 Here are links to the complete test &amp; implementation listings:
-<a href="https://gist.github.com/3778705">BooleanTest.scala</a>
-<a href="https://gist.github.com/3778716">Boolean.scala</a>
+[BooleanTest.scala](https://gist.github.com/3778705)
+[Boolean.scala](https://gist.github.com/3778716)

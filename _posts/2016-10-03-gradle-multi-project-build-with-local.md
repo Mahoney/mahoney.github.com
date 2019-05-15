@@ -9,7 +9,7 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-12562624152387387
 blogger_orig_url: http://blog.lidalia.org.uk/2016/10/gradle-multi-project-build-with-local.html
 ---
 
-<b>Note - 2016-10-22 - I missed <a href="https://docs.gradle.org/current/userguide/composite_builds.html">Gradle Composite Builds</a> which do something very similar</b>
+<b>Note - 2016-10-22 - I missed [Gradle Composite Builds](https://docs.gradle.org/current/userguide/composite_builds.html) which do something very similar</b>
 <b>
 </b>I often find myself on a project with multiple applications depending on common libraries, so I tend to end up with a super project looking like this:
 
@@ -64,4 +64,4 @@ subprojects {
 This effectively gives the Maven behaviour - and IntelliJ at least respects it correctly and resolves the dependencies to the same workspace
 
 You can play with an example here:
-<a href="https://github.com/lidalia-example-project/parent">https://github.com/lidalia-example-project/parent</a>
+[https://github.com/lidalia-example-project/parent](https://github.com/lidalia-example-project/parent)

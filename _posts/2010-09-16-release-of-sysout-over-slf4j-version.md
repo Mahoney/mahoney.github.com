@@ -31,11 +31,11 @@ allowing automatic generation of logging information such as timestamp and filte
 
 The project page is here:
 
-<a href="http://projects.lidalia.org.uk/sysout-over-slf4j/">http://projects.lidalia.org.uk/sysout-over-slf4j/</a>
+[http://projects.lidalia.org.uk/sysout-over-slf4j/](http://projects.lidalia.org.uk/sysout-over-slf4j/)
 
 The artifacts can be downloaded here:
 
-<a href="http://github.com/Mahoney/sysout-over-slf4j/downloads">http://github.com/Mahoney/sysout-over-slf4j/downloads</a>
+[http://github.com/Mahoney/sysout-over-slf4j/downloads](http://github.com/Mahoney/sysout-over-slf4j/downloads)
 
 Or via the Maven central repository:
 

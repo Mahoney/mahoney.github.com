@@ -12,7 +12,7 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/10/cap-theorem-2-basic-tradeof
 <b>WARNING - on further reading I'm not at all sure the below is accurate. Take it with a large pinch of salt as part of my ;earning experience...</b>
 <h3>tl;dr:</h3>You can't sacrifice Availability, so you have to choose between being Consistent and being Partition Tolerant. But only in the event of a network partition! You can be Partition Tolerant and still be Consistent when no partition is occurring.
 
-Following up from <a href="{{ site.baseurl }}{% post_url 2013-10-23-cap-theorem %}">my previous post on CAP Theorem</a>, I'm going to discuss what in practical terms the CAP trade-off means.
+Following up from [my previous post on CAP Theorem]({{ site.baseurl }}{% post_url 2013-10-23-cap-theorem %}), I'm going to discuss what in practical terms the CAP trade-off means.
 
 <h4>A is non-negotiable - a truly CP data store is a broken idea</h4>Remember, "Available" doesn't mean "working", "Available" means "doesn't hang indefinitely". In the event of a network partition a truly CP data store will simply hang on a request until it has heard from all its replicas. A system that hangs indefinitely is a chocolate tea pot. Poorly written clients will also hang indefinitely, ending up with users sitting staring at some equivalent of the Microsoft sand timer. In the end someone (a well written client, or just the poor schmuck staring at his non-responsive computer) will decide to time the operation out and give up, leaving them in the same not-working state as a CA system but with the additional worry that they've no idea what happened to the request they sent.
 

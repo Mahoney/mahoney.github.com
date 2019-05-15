@@ -14,10 +14,10 @@ I'm pleased to announce the release of sysout-over-slf4j version 1.0.2, a bridge
  Release 1.0.2 fixes a concurrency issue when multiple threads were writing to a system printstream at the same time by maintaining the contract of the existing System out and err printstreams and synchronizing on them when printing. Also fixes the problem with lines in a single stack trace being interleaved with other messages printed on the same print stream.
 
  The project page is here:
-<a href="http://projects.lidalia.org.uk/sysout-over-slf4j/">http://projects.lidalia.org.uk/sysout-over-slf4j/</a>
+[http://projects.lidalia.org.uk/sysout-over-slf4j/](http://projects.lidalia.org.uk/sysout-over-slf4j/)
 
  The artifacts can be downloaded here:
-<a href="http://github.com/Mahoney/sysout-over-slf4j/downloads">http://github.com/Mahoney/sysout-over-slf4j/downloads</a>
+[http://github.com/Mahoney/sysout-over-slf4j/downloads](http://github.com/Mahoney/sysout-over-slf4j/downloads)
 
  Or via Maven: <pre class="brush:xml"><dependency>
    <groupid>uk.org.lidalia</groupid>

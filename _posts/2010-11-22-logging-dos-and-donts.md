@@ -9,15 +9,15 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-33545655732285730
 blogger_orig_url: http://blog.lidalia.org.uk/2010/11/logging-dos-and-donts.html
 ---
 
-Inspired by this post on <a href="http://blog.yohanliyanage.com/2010/11/the-dark-art-of-logging/">The Dark Art of Logging</a>&nbsp;I thought I'd add a few logging do's and dont's of my own.
+Inspired by this post on [The Dark Art of Logging](http://blog.yohanliyanage.com/2010/11/the-dark-art-of-logging/)&nbsp;I thought I'd add a few logging do's and dont's of my own.
 
-<h2>DO Use <a href="http://www.slf4j.org/">SLF4J</a></h2>SLF4J is a very thin interface for logging, with multiple different actual logging backends supported - particularly log4j, java.util.logging and logback. You can add your own logging backend very easily indeed, or add an adaptor to an existing logging system such as log5j. It follows a similar API to log4j/commons-logging.
+<h2>DO Use [SLF4J](http://www.slf4j.org/)</h2>SLF4J is a very thin interface for logging, with multiple different actual logging backends supported - particularly log4j, java.util.logging and logback. You can add your own logging backend very easily indeed, or add an adaptor to an existing logging system such as log5j. It follows a similar API to log4j/commons-logging.
 
 If you are writing a library you should be using it because it means you aren't dictating a logging backend to your clients - they can use whatever they like. If you are writing an application you should use it to insulate yourself from future change - you can switch from log4j to logback to java.util.logging to some other logging backend as yet unwritten at will without making code changes.
 
-This is a very brief argument for SLF4J - there are more in depth ones referenced <a href="http://www.slf4j.org/docs.html">here</a>.
+This is a very brief argument for SLF4J - there are more in depth ones referenced [here](http://www.slf4j.org/docs.html).
 
-<h2>DO Use SLF4J's <a href="http://www.slf4j.org/faq.html#logging_performance">Parameterized Logging</a></h2>Traditionally debug logging statements involving expensive string concatenation are wrapped in a check to save the expense of generating the message when the log is disabled:
+<h2>DO Use SLF4J's [Parameterized Logging](http://www.slf4j.org/faq.html#logging_performance)</h2>Traditionally debug logging statements involving expensive string concatenation are wrapped in a check to save the expense of generating the message when the log is disabled:
 
 <pre class="brush:java">
 if (log.isDebugEnabled()) {
@@ -92,7 +92,7 @@ public class LowLevelException extends BaseException { ... }
 public class HighLevelException extends BaseException { ... }
 </pre>By the time the root method actually recovers, we've logged the same low level exception as error five times! And _all_ of the information was logged by the last log.error call in the root method.
 
-You should log an exception once and only once, otherwise when examining a log file for stacktraces you are confused by the same data replicated multiple times, which obfuscates the actual cause and quantity of problems. That leaves us with the problem of when it is you should log it. I am strongly of the opinion that you should leave it to clients of your code to log your exception as they see fit at the point where they actually handle it (so not when re-throwing it as the cause of a higher level exception). You <a href="{{ site.baseurl }}{% post_url 2010-01-29-checked-and-unchecked-exceptions %}">don't know how serious clients think an exception is</a> when you throw that exception. Let them decide what to do with it, including logging it.
+You should log an exception once and only once, otherwise when examining a log file for stacktraces you are confused by the same data replicated multiple times, which obfuscates the actual cause and quantity of problems. That leaves us with the problem of when it is you should log it. I am strongly of the opinion that you should leave it to clients of your code to log your exception as they see fit at the point where they actually handle it (so not when re-throwing it as the cause of a higher level exception). You [don't know how serious clients think an exception is]({{ site.baseurl }}{% post_url 2010-01-29-checked-and-unchecked-exceptions %}) when you throw that exception. Let them decide what to do with it, including logging it.
 
 So what about the extra contextual information you were logging at each level? Add it to the exception itself, ensuring that it will be printed in the exception's message and also be available programatically to your clients. Then when it is logged with stacktrace out will come all that contextual information, just as you need it.
 
@@ -109,7 +109,7 @@ Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() 
   <exception-type>java.lang.Exception</exception-type>
   <location>/error.jsp</location>
 </error-page>
-</pre>In Spring you can <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-exceptionhandlers">setup exception resolvers</a>.
+</pre>In Spring you can [setup exception resolvers](http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-exceptionhandlers).
 
 <h2>DO Use Aspect Oriented Programming for Trace Logging</h2>If you're writing code like this: <pre class="brush:java">
 public String doSomeWork(String param1, Integer param2) {
@@ -118,7 +118,7 @@ public String doSomeWork(String param1, Integer param2) {
     log.trace("&lt; doSomeWork[{}]", result);
     return result;
 }
-</pre>in every method then it's time to find out about <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">Aspect Oriented Programming</a>. You can use something like AspectJ to add the trace statements to all methods at compile time, resulting in bytecode that contains the trace calls, or you can use instrumentation to add them to the loaded class at runtime. You could even use <a href="http://groovy.codehaus.org/Local+AST+Transformations">Groovy AST transformations</a> or <a href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-introduction-proxies">Spring proxies</a>, though the latter will only add trace logging to calls between objects. I'll try and blog about these further in future, but the net result is you still get your trace logging but your method now looks like this: <pre class="brush:java">
+</pre>in every method then it's time to find out about [Aspect Oriented Programming](http://en.wikipedia.org/wiki/Aspect-oriented_programming). You can use something like AspectJ to add the trace statements to all methods at compile time, resulting in bytecode that contains the trace calls, or you can use instrumentation to add them to the loaded class at runtime. You could even use [Groovy AST transformations](http://groovy.codehaus.org/Local+AST+Transformations) or [Spring proxies](http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html#aop-introduction-proxies), though the latter will only add trace logging to calls between objects. I'll try and blog about these further in future, but the net result is you still get your trace logging but your method now looks like this: <pre class="brush:java">
 public String doSomeWork(String param1, Integer param2) {
     String result = /* work done here */;
     return result;
