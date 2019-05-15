@@ -13,7 +13,8 @@ I've just completed a new [SLF4J](http://www.slf4j.org/) legacy bridging module 
 
 The basic idea is to transform real old school System.out.println("log message") and exception.printStacktrace() into modern logging statements that can be managed by log4j or logback or any other logging system that implements SLF4J or has a conversion layer from it, using the now standard convention of logging to a logger whose name is the same as the fully qualified name of the class doing the logging. Here's the documentation:
 
-<h3>System.out and err over SLF4J</h3>The sysout-over-slf4j module allows a user to redirect all calls to System.out and System.err to an SLF4J defined logger with the name of the fully qualified class in which the System.out.println (or similar) call was made, at configurable levels.
+### System.out and err over SLF4J
+The sysout-over-slf4j module allows a user to redirect all calls to System.out and System.err to an SLF4J defined logger with the name of the fully qualified class in which the System.out.println (or similar) call was made, at configurable levels.
 
 <h4>What are the intended use cases?</h4>The sysout-over-slf4j module is for cases where your legacy codebase, or a third party module you use, prints directly to the console and you would like to get the benefits of a proper logging framework, with automatic capture of information like timestamp and the ability to filter which messages you are interested in seeing and control where they are sent.
 

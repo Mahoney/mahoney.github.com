@@ -10,13 +10,15 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/10/cap-theorem-2-basic-tradeof
 ---
 
 <b>WARNING - on further reading I'm not at all sure the below is accurate. Take it with a large pinch of salt as part of my ;earning experience...</b>
-<h3>tl;dr:</h3>You can't sacrifice Availability, so you have to choose between being Consistent and being Partition Tolerant. But only in the event of a network partition! You can be Partition Tolerant and still be Consistent when no partition is occurring.
+### tl;dr:
+You can't sacrifice Availability, so you have to choose between being Consistent and being Partition Tolerant. But only in the event of a network partition! You can be Partition Tolerant and still be Consistent when no partition is occurring.
 
 Following up from [my previous post on CAP Theorem]({{ site.baseurl }}{% post_url 2013-10-23-cap-theorem %}), I'm going to discuss what in practical terms the CAP trade-off means.
 
 <h4>A is non-negotiable - a truly CP data store is a broken idea</h4>Remember, "Available" doesn't mean "working", "Available" means "doesn't hang indefinitely". In the event of a network partition a truly CP data store will simply hang on a request until it has heard from all its replicas. A system that hangs indefinitely is a chocolate tea pot. Poorly written clients will also hang indefinitely, ending up with users sitting staring at some equivalent of the Microsoft sand timer. In the end someone (a well written client, or just the poor schmuck staring at his non-responsive computer) will decide to time the operation out and give up, leaving them in the same not-working state as a CA system but with the additional worry that they've no idea what happened to the request they sent.
 
-<h3>Hang on, there are CP data stores out there aren't there?</h3>No, not really - not as I understand CAP theorem, anyway. See below!
+### Hang on, there are CP data stores out there aren't there?
+No, not really - not as I understand CAP theorem, anyway. See below!
 
 <h4>The choice is between CA and AP</h4>In fact it can be reduced to a very, very simple trade-off - in the event of a network partition, do I want the data store to continue to work or do I want the data store to remain consistent?
 
@@ -26,5 +28,6 @@ It's a model that means outages are essentially guaranteed. If that's acceptable
 
 <h4>Which leaves AP</h4>Nearly all data stores used in scenarios where there is a desire to avoid outages entirely in so far as is possible (human error notwithstanding). Which means having multiple copies of state on machines connected by the network, which means network partitions can and will happen. Which means needing to be available and tolerant of those partitions.
 
-<h3>Oh noes! No consistency! Sounds dreadful...</h3>The important point to remember here is that the loss of Consistency implied by Partition Tolerance (i.e. Continuing to Work) _only has to be accepted in the event of a partition_. This is what lots of so-called "CP" systems are trying to do - remain consistent whilst the network is healthy, and only become inconsistent in the event of a partition.
+### Oh noes! No consistency! Sounds dreadful...
+The important point to remember here is that the loss of Consistency implied by Partition Tolerance (i.e. Continuing to Work) _only has to be accepted in the event of a partition_. This is what lots of so-called "CP" systems are trying to do - remain consistent whilst the network is healthy, and only become inconsistent in the event of a partition.
 
