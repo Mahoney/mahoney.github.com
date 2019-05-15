@@ -9,7 +9,7 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-37625276466548324
 blogger_orig_url: http://blog.lidalia.org.uk/2013/12/h2-hsqldb-for-simulating-oracle.html
 ---
 
-H2 &amp; HSQLDB are two Java in-memory databases. They both offer a degree of support for simulating an Oracle database in your tests. This post describes the pros and cons of each.
+H2 & HSQLDB are two Java in-memory databases. They both offer a degree of support for simulating an Oracle database in your tests. This post describes the pros and cons of each.
 
 ## H2
 ### How to setup:

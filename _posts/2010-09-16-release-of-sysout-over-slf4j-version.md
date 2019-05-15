@@ -47,10 +47,10 @@ Or via the Maven central repository:
 
 ```xml
 
-&lt;dependency&gt;
-    &lt;groupId&gt;uk.org.lidalia&lt;/groupId&gt;
-    &lt;artifactId&gt;sysout-over-slf4j&lt;/artifactId&gt;
-    &lt;version&gt;1.0.0&lt;/version&gt;
-&lt;/dependency&gt;
+<dependency>
+    <groupId>uk.org.lidalia</groupId>
+    <artifactId>sysout-over-slf4j</artifactId>
+    <version>1.0.0</version>
+</dependency>
 
 ```

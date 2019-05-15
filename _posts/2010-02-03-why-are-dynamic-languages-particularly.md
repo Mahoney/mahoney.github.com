@@ -22,7 +22,7 @@ errors.
 
 At another level, however, it seems to me that a mature, strongly typed, static
 language is actually much more in tune with my understanding at least of Agile
-values &amp; principles. Fast feedback is a major part of the way the teams
+values & principles. Fast feedback is a major part of the way the teams
 I've worked on do Agile - we release weekly so that new features are in front of
 the customers as soon as possible so we can evaluate whether they were a good
 idea or not. We integrate continuously and run automated regression tests to

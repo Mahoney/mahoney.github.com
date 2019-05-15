@@ -21,7 +21,7 @@ Here are the tests:
 And here's the code to make them pass:
 <script src="https://gist.github.com/3778797.js?file=Boolean.scala"></script>
 
-Then we need to add the shortcut &amp;&amp; and || to the mix. For this we use Scala's support for call by name, by prefixing the argument type to the function with =&gt;. This means Scala will not evaluate the expression passed as this argument to the function until it is referenced within the function, unlike normal behaviour where the expression is evaluated prior to the function being called. We'll test for this:
+Then we need to add the shortcut && and || to the mix. For this we use Scala's support for call by name, by prefixing the argument type to the function with =>. This means Scala will not evaluate the expression passed as this argument to the function until it is referenced within the function, unlike normal behaviour where the expression is evaluated prior to the function being called. We'll test for this:
 <script src="https://gist.github.com/3778831.js?file=Boolean.scala"></script>
 
 And make those tests pass:
@@ -39,6 +39,6 @@ All told I'm pretty impressed - the only ugliness I failed to massage away was t
 
 (Of course, there's a certain irony in reimplementing if/else if/else by using polymorphism - which is the purist OO way of avoiding if/else in the first place...)
 
-Here are links to the complete test &amp; implementation listings:
+Here are links to the complete test & implementation listings:
 [BooleanTest.scala](https://gist.github.com/3778705)
 [Boolean.scala](https://gist.github.com/3778716)

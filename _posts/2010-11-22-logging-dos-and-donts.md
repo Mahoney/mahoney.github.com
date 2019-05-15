@@ -163,9 +163,9 @@ If you're writing code like this:
 ```java
 
 public String doSomeWork(String param1, Integer param2) {
-    log.trace("&gt; doSomeWork[param1={}, param2={}]", param1, param2);
+    log.trace("> doSomeWork[param1={}, param2={}]", param1, param2);
     String result = /* work done here */;
-    log.trace("&lt; doSomeWork[{}]", result);
+    log.trace("< doSomeWork[{}]", result);
     return result;
 }
 

@@ -11,7 +11,7 @@ blogger_orig_url: http://blog.lidalia.org.uk/2014/09/homebrew-finder-launched-ap
 
 Recently had an issue where scripts launched from IntelliJ did not have my Homebrew installed executables on their path in Snow Leopard. Fixed it with the following:
 
-sudo sh -c 'echo "setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" &gt;&gt; /etc/launchd.conf'
+sudo sh -c 'echo "setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" >> /etc/launchd.conf'
 
 and restarting. No guarantees for any other machine / OS! YMMV.
 

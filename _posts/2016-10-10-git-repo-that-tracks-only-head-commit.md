@@ -13,9 +13,9 @@ Quick note to self on how to have a git repo that only contains a single commit,
 
 Initiate it with:
 
-`git clone &lt;url&gt; --branch &lt;branch_name&gt; --depth=1`
+`git clone <url> --branch <branch_name> --depth=1`
 
 Update it with:
 
-`git pull &amp;&amp; git pull --depth=1 &amp;&amp; git reflog expire --expire-unreachable=now --all`
+`git pull && git pull --depth=1 && git reflog expire --expire-unreachable=now --all`
 

@@ -34,7 +34,7 @@ A servlet container may contain multiple web applications. If it has child first
 In order to prevent classloader leaks when contextsare reloaded the new PrintStreams are created by a special classloader so that they do not themselves maintain a reference to the context classloader. However, since the PrintStreams do maintain a reference to the context's SLF4J instance the user must also stop sending System.out/err to SLF4J in a context before discarding or reloading it to avoid a classloader leak via the stopSendingSystemOutAndErrToSLF4J method on the SysOutOverSLF4J class. This happens automatically if using the provided SysOutOverSLF4JServletContextListener.
 
 #### Don't most logging systems print to the console? Won't that mean infinite recursion?
-Fortunately, Log4J, JULI &amp; Logback all do so through the write methods on PrintStream, which are rarely used for direct logging. Consequently these methods on the new PrintStreams proxy directly to the old System.out/err PrintStreams, allowing these logging frameworks to work as before.
+Fortunately, Log4J, JULI & Logback all do so through the write methods on PrintStream, which are rarely used for direct logging. Consequently these methods on the new PrintStreams proxy directly to the old System.out/err PrintStreams, allowing these logging frameworks to work as before.
 
 Other SLF4J implementations may not fit this useful pattern. They can be registered with sysout-over-slf4j via static methods on the SysOutOverSLF4J class to permit them to access the console.
 

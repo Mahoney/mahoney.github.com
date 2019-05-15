@@ -30,7 +30,7 @@ Now imagine that you want to write a method that depends on taking items that ar
 
 ```java
 
-&lt;T extends FooInterface &amp; BarInterface&gt; void doSomething(T instance) {
+<T extends FooInterface & BarInterface> void doSomething(T instance) {
     instance.methodOnFooInterface();
     instance.methodOnBarInterface();
 }
@@ -43,7 +43,7 @@ However, what I haven't yet worked out how to do is use a method that can take a
 
 ```java
 
-&lt;T extends FooInterface &amp; BarInterface&gt; void doSomethingElse(Collection&lt;T&gt; collection) {
+<T extends FooInterface & BarInterface> void doSomethingElse(Collection<T> collection) {
     for (T instance : collection) {
         instance.methodOnFooInterface();
         instance.methodOnBarInterface();
@@ -56,7 +56,7 @@ The method declaration works, but how to call it? I can find no way to instantia
 
 ```java
 
-Collection&lt;FooInterface &amp; BarInterface&gt; things = new ArrayList&lt;FooInterface &amp; BarInterface&gt;); // DOES NOT COMPILE
+Collection<FooInterface & BarInterface> things = new ArrayList<FooInterface & BarInterface>); // DOES NOT COMPILE
 this.add(new Foo());
 this.add(new Bar());
 doSomethingElse(things);
@@ -69,8 +69,8 @@ Edit: found a clunky way to do it:
 
 ```java
 
-&lt;T extends FooInterface &amp; BarInterface&gt; Collection&lt;T&gt; makeCollection(T instance1, T instance2) {
-    Collection&lt;T&gt; collection = new ArrayList&lt;T&gt;();
+<T extends FooInterface & BarInterface> Collection<T> makeCollection(T instance1, T instance2) {
+    Collection<T> collection = new ArrayList<T>();
     collection.add(instance1);
     collection.add(instance2);
     return collection;
