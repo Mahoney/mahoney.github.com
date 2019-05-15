@@ -15,7 +15,8 @@ The client is then meant to retrieve any other URIs from links embedded in the e
 
 I have a couple of concerns with this theory, which I'm going to explore in this blog post.
 
-<ol><li><h2>Programming such a client is more arduous</h2>Imagine that as a client there's some specific resource you want to retrieve - perhaps a representation of a customer. If you are obeying the principles of HATEOAS you go to the root URI, and retrieve the following resource: <pre>
+* ## Programming such a client is more arduous
+Imagine that as a client there's some specific resource you want to retrieve - perhaps a representation of a customer. If you are obeying the principles of HATEOAS you go to the root URI, and retrieve the following resource: <pre>
 {
   ...
   "link": {
@@ -28,7 +29,8 @@ I have a couple of concerns with this theory, which I'm going to explore in this
 
  Or you behave badly, disobey HATEOAS and hard code the URI pattern: <pre>/customers/${customerName}</pre>
 
-<li><h2>URIs cannot be hidden from the client</h2>Many programming languages provide a means to enforce which elements are public, and hence suitable for clients to bind to, and which are not - normally with visibility modifiers of some form. There are frequently ways for clients to get round these restrictions, but at a bare minimum it makes it very clear to the client that they are not meant to be doing it and upgrades are likely to break them.
+* ## URIs cannot be hidden from the client
+Many programming languages provide a means to enforce which elements are public, and hence suitable for clients to bind to, and which are not - normally with visibility modifiers of some form. There are frequently ways for clients to get round these restrictions, but at a bare minimum it makes it very clear to the client that they are not meant to be doing it and upgrades are likely to break them.
 
 There is no way to do this with a URI. If a badly behaved client decides to bind to some resource specific URI deep in your API, there's nothing to stop them and indeed nothing beyond documentation & knowledge of HATEOAS (which in my experience is still pretty limited in the general marketplace of software developers) to suggest to them that they are doing the wrong thing.
 
