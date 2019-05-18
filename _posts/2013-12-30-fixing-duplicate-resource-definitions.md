@@ -63,7 +63,7 @@ define mything ($log_dir='/var/log/mythings') {
 }
 
 ```
-#### mything/defaultlogging.pp"
+#### mything/defaultlogging.pp
 ```puppet
 class mything::defaultlogging {
   @file { '/var/log/mythings':
@@ -98,4 +98,4 @@ mything { "thing3":
 ```
 
 and all is good. Importantly, applying this manifest will *not* create the 
-default /var/log/mythings directory.
+default `/var/log/mythings` directory.
