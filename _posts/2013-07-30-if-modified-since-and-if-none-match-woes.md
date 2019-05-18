@@ -19,13 +19,13 @@ The scenarios I have in mind are:
    fresh.
 
    Imagine a cache has a fresh representation of `/resource` as so:
-   ```http request
+   ```http
    ETag: some_etag
    Last-Modified: Fri, 26 Jul 2013 14:00:00 GMT
    ```
    
    It receives a request as so:
-   ```http request
+   ```http
    GET /resource HTTP/1.1
    If-None-Match: other_etag
    If-Modified-Since: Fri, 26 Jul 2013 14:00:01 GMT
@@ -65,7 +65,7 @@ The scenarios I have in mind are:
 
    The client then makes a conditional request which happens to get mapped to 
    node 1:
-   ```http request
+   ```http
    GET /resource HTTP/1.1
    If-None-Match: other_etag
    If-Modified-Since: Fri, 26 Jul 2013 14:00:01 GMT
