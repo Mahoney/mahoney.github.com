@@ -27,7 +27,8 @@ accessible from localhost (127.0.0.1). You can tell this because if you do a
 Proto               Local Address                          State
 tcp6       0      0 127.0.0.1:8080 :::*                    LISTEN
 ```
-that means the bind-address is localhost so the process is inaccessible outside the server. It should look like this:
+that means the bind-address is localhost so the process is inaccessible outside 
+the server. It should look like this:
 ```
 Proto               Local  Address  Foreign Address         State
 tcp6       0      0 :::8080         :::*                    LISTEN

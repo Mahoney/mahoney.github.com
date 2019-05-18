@@ -9,7 +9,8 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-87409069312171440
 blogger_orig_url: http://blog.lidalia.org.uk/2010/09/release-of-sysout-over-slf4j-version.html
 ---
 
-I'm pleased to announce the release of sysout-over-slf4j version 1.0.0, a bridge between System.out/err and SLF4J.
+I'm pleased to announce the release of sysout-over-slf4j version 1.0.0, a bridge 
+between System.out/err and SLF4J.
 
 This effectively translates a call such as:
 
@@ -33,7 +34,8 @@ class Foo {
 
 ```
 
-allowing automatic generation of logging information such as timestamp and filtering of statements using any SLF4J implementation such as Log4J or Logback.
+allowing automatic generation of logging information such as timestamp and 
+filtering of statements using any SLF4J implementation such as Log4J or Logback.
 
 The project page is here:
 
