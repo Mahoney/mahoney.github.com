@@ -116,8 +116,8 @@ the Java type system, or are more a function of the vocabulary Scala developers
 use to describe the generic types being unfamiliar to Java developers who might 
 otherwise recognise a concept familiar to them from Java.
 
-For instance, to be told "`List[A+]` means List is covariant in A" is daunting.
-To find out that all this means is that effectively the declaration
+For instance, to be told "`List[A+]` means `List` is covariant in `A`" is
+daunting. To find out that all this means is that effectively the declaration
 ```scala
 val elements: List[Number] = new List(1, 2, 3)
 ```
