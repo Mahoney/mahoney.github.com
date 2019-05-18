@@ -20,6 +20,7 @@ The scenarios I have in mind are:
 
    Imagine a cache has a fresh representation of `/resource` as so:
    ```http
+   HTTP/1.1 200 OK
    ETag: some_etag
    Last-Modified: Fri, 26 Jul 2013 14:00:00 GMT
    ```
