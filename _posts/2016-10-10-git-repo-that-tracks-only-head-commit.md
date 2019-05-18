@@ -9,13 +9,17 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-35468474812692343
 blogger_orig_url: http://blog.lidalia.org.uk/2016/10/git-repo-that-tracks-only-head-commit.html
 ---
 
-Quick note to self on how to have a git repo that only contains a single commit, the head of a branch.
+Quick note to self on how to have a git repo that only contains a single commit, 
+the head of a branch.
 
 Initiate it with:
 
-`git clone <url> --branch <branch_name> --depth=1`
+```bash 
+git clone <url> --branch <branch_name> --depth=1
+```
 
 Update it with:
 
-`git pull && git pull --depth=1 && git reflog expire --expire-unreachable=now --all`
-
+```bash
+git pull && git pull --depth=1 && git reflog expire --expire-unreachable=now --all
+```

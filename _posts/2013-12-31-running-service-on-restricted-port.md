@@ -9,21 +9,35 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-70177806217844755
 blogger_orig_url: http://blog.lidalia.org.uk/2013/12/running-service-on-restricted-port.html
 ---
 
-Common problem - you need to run up a service (e.g. an HTTP server) on a port <= 1024 (e.g. port 80). You don't want to run it as root, because you're not <b>that</b> stupid. You don't want to run some quite complicated other thing you might misconfigure and whose features you don't actually need (I'm looking at you, Apache HTTPD) as a proxy just to achieve this end. What to do?
+Common problem - you need to run up a service (e.g. an HTTP server) on a port <= 
+1024 (e.g. port 80). You don't want to run it as root, because you're not *that* 
+stupid. You don't want to run some quite complicated other thing you might 
+misconfigure and whose features you don't actually need (I'm looking at you, 
+Apache HTTPD) as a proxy just to achieve this end. What to do?
 
-Well, you can run up your service on an unrestricted port like 8080 as a user with restricted privileges, and then do NAT via IP Tables to redirect TCP traffic from a restricted port (e.g. 80) to that unrestricted one:
+Well, you can run up your service on an unrestricted port like 8080 as a user 
+with restricted privileges, and then do NAT via IP Tables to redirect TCP 
+traffic from a restricted port (e.g. 80) to that unrestricted one:
 
 ```bash
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ```
 
-However, this isn't quite complete - if you are on the host itself this rule will not apply, so you still can't get to the service on the restricted port. To work around this I have so far found you need to add an OUTPUT rule. As it's an OUTPUT rule it *must* be restricted to only the IP address of the local box - otherwise you'll find requests apparently to other servers are being re-routed to localhost on the unrestricted port. For the loopback adapter this looks like this:
+However, this isn't quite complete - if you are on the host itself this rule 
+will not apply, so you still can't get to the service on the restricted port. To 
+work around this I have so far found you need to add an OUTPUT rule. As it's an 
+OUTPUT rule it *must* be restricted to only the IP address of the local box - 
+otherwise you'll find requests apparently to other servers are being re-routed 
+to localhost on the unrestricted port. For the loopback adapter this looks like 
+this:
 
 ```bash
 iptables -t nat -A OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080
 ```
 
-If you want a comprehensive solution, you'll have to add the same rule over and over for the IP addresses of all network adapters on the host. This can be done in Puppet as so:
+If you want a comprehensive solution, you'll have to add the same rule over and 
+over for the IP addresses of all network adapters on the host. This can be done 
+in Puppet as so:
 
 ```puppet
 define localiptablesredirect($to_port) {

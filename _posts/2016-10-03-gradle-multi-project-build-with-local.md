@@ -45,7 +45,8 @@ dependencies {
   compile project(':lib')
 }
 ```
-This is much more invasive - changing to a release version of the lib now requires replacing that with:
+This is much more invasive - changing to a release version of the lib now 
+requires replacing that with:
 ```groovy
 dependencies {
   compile 'mygroup:lib:1.2.3'
