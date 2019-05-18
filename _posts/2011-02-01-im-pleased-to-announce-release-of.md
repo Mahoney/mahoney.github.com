@@ -18,15 +18,15 @@ System out and err printstreams and synchronizing on them when printing. Also
 fixes the problem with lines in a single stack trace being interleaved with
 other messages printed on the same print stream.
 
- The project page is here:
+The project page is here:
 [http://projects.lidalia.org.uk/sysout-over-slf4j/](http://projects.lidalia.org.uk/sysout-over-slf4j/)
 
- The artifacts can be downloaded here:
+The artifacts can be downloaded here:
 [http://github.com/Mahoney/sysout-over-slf4j/downloads](http://github.com/Mahoney/sysout-over-slf4j/downloads)
 
- Or via Maven:
- ```xml
- <dependency>
+Or via Maven:
+```xml
+<dependency>
    <groupid>uk.org.lidalia</groupid>
    <artifactid>sysout-over-slf4j</artifactid>
    <version>1.0.2</version>

@@ -10,7 +10,7 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/10/cap-theorem-2-basic-tradeof
 ---
 
 *WARNING - on further reading I'm not at all sure the below is accurate. Take it
- with a large pinch of salt as part of my learning experience...*
+with a large pinch of salt as part of my learning experience...*
 
 ### tl;dr:
 

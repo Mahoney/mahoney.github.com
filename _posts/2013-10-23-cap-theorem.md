@@ -10,7 +10,7 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/10/cap-theorem.html
 ---
 
 *WARNING - on further reading I'm not at all sure the below is accurate. Take
- it with a large pinch of salt as part of my learning experience...*
+it with a large pinch of salt as part of my learning experience...*
 
 I've been a bit confused over the meaning of the C, A and P of CAP theorem. I
 think I've got it sussed now, so this post is my attempt to encapsulate that
@@ -90,6 +90,7 @@ the other of the partition, and the system will have to do one of three things:
    than half the nodes has sacrificed C in return for A and P.
 
 #### It's Not That Simple
+
 Of course it isn't - the C, A and P qualities are not binary, they are a
 continuum, and data stores can make trade offs between them. A dynamo style
 store can choose to sacrifice some tolerance to a partition in return for more

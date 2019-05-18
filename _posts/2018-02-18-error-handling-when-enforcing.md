@@ -119,7 +119,7 @@ plain `A` or a plain `B`, and it is called in such a way that its arguments are
 fully known at compile time, the compiler could actually call the function at
 compile time and check whether it returns a `Left(a: A)` or a `Right(b: B)`? And
 if it returns the correct one, permit its use directly as an `A` or `B`? And if
- not, report the other as the text of a compile error?
+not, report the other as the text of a compile error?
 
 This would then work entirely seamlessly, with no library code, and would not
 require any String parsing for cases such as our `Natural` above that are not
