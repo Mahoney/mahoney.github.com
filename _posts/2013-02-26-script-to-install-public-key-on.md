@@ -9,7 +9,8 @@ blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-27430633063512830
 blogger_orig_url: http://blog.lidalia.org.uk/2013/02/script-to-install-public-key-on.html
 ---
 
-Here's a little script that can upload a public key onto a server - you could run it for multiple servers at the same time. Requires sshpass to be installed.
+Here's a little script that can upload a public key onto a server - you could 
+run it for multiple servers at the same time. Requires sshpass to be installed.
 ```bash
 stty -echo
 read -p "Password: " passw; echo
