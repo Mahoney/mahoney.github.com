@@ -48,7 +48,7 @@ DataSource dataSource = new DriverManagerDataSource(
     "jdbc:hsqldb:mem:MYDBNAME",
     "sa",
     "")
-JdbcTemplate&nbsp; jdbcTemplate = new JdbcTemplate(dataSource)
+JdbcTemplate  jdbcTemplate = new JdbcTemplate(dataSource)
 jdbcTemplate.execute("set database sql syntax ORA TRUE;");
 jdbcTemplate.execute("set database transaction control MVCC;");
 

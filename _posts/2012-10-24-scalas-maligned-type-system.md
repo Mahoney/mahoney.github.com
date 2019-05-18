@@ -110,7 +110,7 @@ Scala's allegedly baroque type system, shows none of them.
 Personally I find generic type parameters easier in Scala than Java - I don't 
 know how much time I've wasted trying to work out how to make javac accept 
 complicated generic signatures, with hopelessly illegible compile errors about 
-"? capture 1 of 3"&nbsp; not matching. I have a suspicion that many of the 
+"? capture 1 of 3"  not matching. I have a suspicion that many of the 
 complaints about the Scala type system either apply as much and often more to 
 the Java type system, or are more a function of the vocabulary Scala developers 
 use to describe the generic types being unfamiliar to Java developers who might 
