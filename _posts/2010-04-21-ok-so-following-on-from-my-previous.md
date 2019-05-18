@@ -3,7 +3,7 @@ layout: post
 title: Accessing Jetty on Ubuntu from another machine
 date: '2010-04-21T23:13:00.003+01:00'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2010-04-21T23:22:37.654+01:00'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-142373186234879456
 blogger_orig_url: http://blog.lidalia.org.uk/2010/04/ok-so-following-on-from-my-previous.html
@@ -27,7 +27,7 @@ accessible from localhost (127.0.0.1). You can tell this because if you do a
 Proto               Local Address                          State
 tcp6       0      0 127.0.0.1:8080 :::*                    LISTEN
 ```
-that means the bind-address is localhost so the process is inaccessible outside 
+that means the bind-address is localhost so the process is inaccessible outside
 the server. It should look like this:
 ```
 Proto               Local  Address  Foreign Address         State

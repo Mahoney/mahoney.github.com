@@ -3,13 +3,13 @@ layout: post
 title: Script to Install Public Key on Multiple Hosts
 date: '2013-02-26T11:01:00.000Z'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2013-06-18T15:28:03.124+01:00'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-2743063306351283016
 blogger_orig_url: http://blog.lidalia.org.uk/2013/02/script-to-install-public-key-on.html
 ---
 
-Here's a little script that can upload a public key onto a server - you could 
+Here's a little script that can upload a public key onto a server - you could
 run it for multiple servers at the same time. Requires sshpass to be installed.
 ```bash
 stty -echo

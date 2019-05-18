@@ -3,7 +3,7 @@ layout: post
 title: Why are dynamic languages particularly associated with being Agile?
 date: '2010-02-03T19:08:00.000Z'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2010-02-03T21:31:42.140Z'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-2048723666443699005
 blogger_orig_url: http://blog.lidalia.org.uk/2010/02/why-are-dynamic-languages-particularly.html
@@ -47,7 +47,7 @@ way of working. The code is the documentation - it should be so good, the
 abstraction levels so clear and well named that you don't need anything else to
 tell you how to use it. What could be more in keeping with that than compiler
 checked (and therefore guaranteed never to be out of date) documentation of the
-types expected and returned from a method. (That, incidentally, has always 
+types expected and returned from a method. (That, incidentally, has always
 seemed to me the primary benefit of generics - not that it saves you from
 programming errors that hardly anyone ever made, but that they document what you
 are expected to pass in that List argument or receive back in that Map in the
@@ -74,7 +74,7 @@ absolute confidence as to that a method does not accept a null argument it saves
 both the caller from testing its behaviour when passed null and the writer of
 the method from writing a test for when null is passed in to document (and
 reassure himself!) as to what occurs. Again I'd argue that the compiler is here
-acting as a low level unit test in itself that is proving some of the behaviour 
+acting as a low level unit test in itself that is proving some of the behaviour
 of your code for "free" - which speeds you up and adds quality.
 
 I wonder how far the dynamic/agile association is actually a result of the

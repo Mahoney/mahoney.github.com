@@ -3,13 +3,13 @@ layout: post
 title: Testing Hive expressions locally on OS/X with brew
 date: '2018-06-19T14:25:00.003+01:00'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2018-06-19T14:25:56.099+01:00'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-2626547522826253924
 blogger_orig_url: http://blog.lidalia.org.uk/2018/06/testing-hive-expressions-locally-on-osx.html
 ---
 
-If you want to test a hive expression (like a regex for an RLIKE clause) you can 
+If you want to test a hive expression (like a regex for an RLIKE clause) you can
 do so locally on OS/X with the following steps:
 
 1. Run `brew install hive`
@@ -17,7 +17,7 @@ do so locally on OS/X with the following steps:
    ```xml
    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-   
+
    <configuration>
      <property>
        <name>javax.jdo.option.ConnectionURL</name>

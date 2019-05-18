@@ -4,13 +4,13 @@ title: Fixing Duplicate Resource Definitions for Defaulted Parameterised Defines
   Puppet
 date: '2013-12-30T14:08:00.002Z'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2013-12-30T14:08:30.792Z'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-9154987933106320879
 blogger_orig_url: http://blog.lidalia.org.uk/2013/12/fixing-duplicate-resource-definitions.html
 ---
 
-Recently I have been working on a puppet module which defines a new resource 
+Recently I have been working on a puppet module which defines a new resource
 which in turn requires a certain directory to exist, as so:
 
 #### mything/init.pp
@@ -29,10 +29,10 @@ define mything ($log_dir='/var/log/mythings') {
   }
 }
 ```
-As you can see the log directory is parameterised with a default, combining 
+As you can see the log directory is parameterised with a default, combining
 flexibility with ease of use.
 
-As it happens there's no reason why multiple of these mythings shouldn't be 
+As it happens there's no reason why multiple of these mythings shouldn't be
 installed on the same host, as so:
 
 ```puppet
@@ -43,7 +43,7 @@ mything { "thing2": }
 But of course that causes puppet to bomb out:
 `Duplicate definition: File[/var/log/mythings] is already defined`
 
-The solution I've found is to realise a virtual resource defined in an 
+The solution I've found is to realise a virtual resource defined in an
 unparameterised class, as so:
 
 #### mything/init.pp
@@ -97,5 +97,5 @@ mything { "thing3":
 }
 ```
 
-and all is good. Importantly, applying this manifest will *not* create the 
+and all is good. Importantly, applying this manifest will *not* create the
 default `/var/log/mythings` directory.

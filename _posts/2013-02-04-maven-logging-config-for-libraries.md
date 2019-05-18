@@ -3,7 +3,7 @@ layout: post
 title: Maven Logging Config for Libraries & Applications
 date: '2013-02-04T15:28:00.000Z'
 author: Robert Elliot
-tags: 
+tags:
 modified_time: '2013-02-04T15:31:05.305Z'
 blogger_id: tag:blogger.com,1999:blog-8805447266344101474.post-4122593573737722979
 blogger_orig_url: http://blog.lidalia.org.uk/2013/02/maven-logging-config-for-libraries.html
@@ -11,16 +11,16 @@ blogger_orig_url: http://blog.lidalia.org.uk/2013/02/maven-logging-config-for-li
 
 A quick dump of my standard Maven poms for both libraries & applications.
 
-Basic theory - pipe everything to SLF4J & use Logback as the SLF4J 
+Basic theory - pipe everything to SLF4J & use Logback as the SLF4J
 implementation.
 
-A library should ONLY have a dependency on slf4j-api - it should not use classes 
+A library should ONLY have a dependency on slf4j-api - it should not use classes
 in any logging implementation.
 
 Libraries:
 #### pom.xml
 ```xml
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelversion>4.0.0</modelversion>
   <groupid>com.acme</groupid>
