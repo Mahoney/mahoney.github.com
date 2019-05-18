@@ -29,9 +29,11 @@ define mything ($log_dir='/var/log/mythings') {
   }
 }
 ```
-As you can see the log directory is parameterised with a default, combining flexibility with ease of use.
+As you can see the log directory is parameterised with a default, combining 
+flexibility with ease of use.
 
-As it happens there's no reason why multiple of these mythings shouldn't be installed on the same host, as so:
+As it happens there's no reason why multiple of these mythings shouldn't be 
+installed on the same host, as so:
 
 ```puppet
 mything { "thing1": }
@@ -41,7 +43,8 @@ mything { "thing2": }
 But of course that causes puppet to bomb out:
 `Duplicate definition: File[/var/log/mythings] is already defined`
 
-The solution I've found is to realise a virtual resource defined in an unparameterised class, as so:
+The solution I've found is to realise a virtual resource defined in an 
+unparameterised class, as so:
 
 #### mything/init.pp
 ```puppet
@@ -93,4 +96,6 @@ mything { "thing3":
   log_dir => $other_log_dir
 }
 ```
-and all is good. Importantly, applying this manifest will <b>not</b> create the default /var/log/mythings directory.
+
+and all is good. Importantly, applying this manifest will *not* create the 
+default /var/log/mythings directory.
